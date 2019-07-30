@@ -1,0 +1,5 @@
+.idea/
+.bundle/
+/tmp
+rspec.swp
+log/
