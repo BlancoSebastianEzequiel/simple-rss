@@ -34,9 +34,3 @@
     Home: {}
 
 _.extend App, Backbone.Events
-
-$ ->
-  new App.Routers.Home()
-
-$ ->
-  Backbone.history.start pushState: true
