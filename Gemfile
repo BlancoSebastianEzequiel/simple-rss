@@ -45,11 +45,6 @@ gem 'jquery-rails'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
-  # use rspec to run unit test
-  # gem 'rspec-rails', '~> 3.0'
-  %w[rspec-core rspec-expectations rspec-mocks rspec-rails rspec-support].each do |lib|
-    gem lib, :git => "git://github.com/rspec/#{lib}.git", :branch => 'master'
-  end
 end
 
 group :development do
@@ -60,10 +55,6 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   # use rspec to run unit test
-  # gem 'rspec-rails', '~> 3.0'
-  %w[rspec-core rspec-expectations rspec-mocks rspec-rails rspec-support].each do |lib|
-    gem lib, :git => "git://github.com/rspec/#{lib}.git", :branch => 'master'
-  end
 end
 
 group :test do
@@ -77,6 +68,8 @@ group :test do
   %w[rspec-core rspec-expectations rspec-mocks rspec-rails rspec-support].each do |lib|
     gem lib, :git => "git://github.com/rspec/#{lib}.git", :branch => 'master'
   end
+  gem "factory_girl_rails"
+  gem 'ffaker'
 end
 
 # Windows does not include zoneinfo files, so bundle the tzinfo-data gem

@@ -94,4 +94,6 @@ RSpec.configure do |config|
   Kernel.srand config.seed
 =end
   require File.expand_path("../../config/environment", __FILE__)
+  require 'factory_girl_rails'
+  require 'ffaker'
 end

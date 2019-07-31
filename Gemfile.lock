@@ -142,6 +142,12 @@ GEM
     ejs (1.1.1)
     erubi (1.8.0)
     execjs (2.7.0)
+    factory_girl (4.9.0)
+      activesupport (>= 3.0.0)
+    factory_girl_rails (4.9.0)
+      factory_girl (~> 4.9.0)
+      railties (>= 3.0.0)
+    ffaker (2.11.0)
     ffi (1.11.1)
     globalid (0.4.2)
       activesupport (>= 4.2.0)
@@ -278,6 +284,8 @@ DEPENDENCIES
   chromedriver-helper
   coffee-rails (~> 4.2)
   devise
+  factory_girl_rails
+  ffaker
   handlebars_assets
   jbuilder (~> 2.5)
   jquery-rails
