@@ -3,7 +3,7 @@ class User < ApplicationRecord
   # :confirmable, :lockable, :timeoutable, :trackable and :omniauthable
   devise :database_authenticatable, :registerable, :recoverable, :rememberable, :validatable, :trackable
 
-  validates :user_name, presence: :true, uniqueness: { case_sensitive: true }
+  validates :user_name, presence: :true, uniqueness: { case_sensitive: true }, format: { without: /\s/ }
 
   protected
   # From Devise module Validatable
