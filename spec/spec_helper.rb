@@ -96,4 +96,11 @@ RSpec.configure do |config|
   require File.expand_path("../../config/environment", __FILE__)
   require 'factory_girl_rails'
   require 'ffaker'
+  require 'shoulda/matchers'
+  Shoulda::Matchers.configure do |config|
+    config.integrate do |with|
+      with.test_framework :rspec
+      with.library :rails
+    end
+  end
 end
