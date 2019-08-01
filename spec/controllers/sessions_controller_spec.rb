@@ -19,7 +19,7 @@ RSpec.describe SessionsController, type: :controller do
         expect(json_response[:auth_token]).to eql @user.auth_token
       end
 
-      it { should respond_with 200 }
+      it { should respond_with :ok }
     end
 
     context "when the credentials are incorrect" do
@@ -33,7 +33,7 @@ RSpec.describe SessionsController, type: :controller do
         expect(json_response[:errors]).to eql "Invalid user name or password"
       end
 
-      it { should respond_with 422 }
+      it { should respond_with :unprocessable_entity }
     end
   end
 
@@ -45,6 +45,6 @@ RSpec.describe SessionsController, type: :controller do
       delete :destroy, params: { id: @user.auth_token }
     end
 
-    it { should respond_with 204 }
+    it { should respond_with :no_content }
   end
 end

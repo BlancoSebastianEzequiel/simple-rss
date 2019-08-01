@@ -13,7 +13,7 @@ RSpec.describe UsersController, type: :controller do
       expect(user_response[:user_name]).to eql @user.user_name
     end
 
-    it { should respond_with 200 }
+    it { should respond_with :ok }
   end
 
   describe "POST #create" do
@@ -29,7 +29,7 @@ RSpec.describe UsersController, type: :controller do
         expect(user_response[:user_name]).to eql @user_attributes[:user_name]
       end
 
-      it { should respond_with 201 }
+      it { should respond_with :created }
     end
 
     context "when is not created" do
@@ -49,7 +49,7 @@ RSpec.describe UsersController, type: :controller do
         expect(user_response[:errors][:user_name]).to include "can't be blank"
       end
 
-      it { should respond_with 422 }
+      it { should respond_with :unprocessable_entity }
     end
   end
 
@@ -67,7 +67,7 @@ RSpec.describe UsersController, type: :controller do
         expect(user_response[:user_name]).to eql "my_user_name"
       end
 
-      it { should respond_with 200 }
+      it { should respond_with :ok }
     end
 
     context "when is not created" do
@@ -87,7 +87,7 @@ RSpec.describe UsersController, type: :controller do
         expect(user_response[:errors][:user_name]).to include "is invalid"
       end
 
-      it { should respond_with 422 }
+      it { should respond_with :unprocessable_entity }
     end
   end
 
@@ -98,7 +98,7 @@ RSpec.describe UsersController, type: :controller do
       delete :destroy, params: { id: @user.id }, format: :json
     end
 
-    it { should respond_with 204 }
+    it { should respond_with :no_content }
 
   end
 end

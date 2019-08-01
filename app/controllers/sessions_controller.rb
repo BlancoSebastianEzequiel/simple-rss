@@ -9,9 +9,9 @@ class SessionsController < ApplicationController
       sign_in user, store: false
       user.generate_authentication_token!
       user.save
-      render json: user, status: 200
+      render json: user, status: :ok
     else
-      render json: { errors: "Invalid user name or password" }, status: 422
+      render json: { errors: "Invalid user name or password" }, status: :unprocessable_entity
     end
   end
 
@@ -19,6 +19,6 @@ class SessionsController < ApplicationController
     user = User.find_by(auth_token: params[:id])
     user.generate_authentication_token!
     user.save
-    head 204
+    head 	:no_content
   end
 end
