@@ -3,6 +3,3 @@
 # You can use CoffeeScript in this file: http://coffeescript.org/
 
 #= require ./application
-
-$ ->
-  # new App.Routers.Home()
