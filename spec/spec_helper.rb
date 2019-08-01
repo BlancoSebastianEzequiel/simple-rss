@@ -13,6 +13,29 @@
 # it.
 #
 # See http://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+
+ENV["RAILS_ENV"] ||= 'test'
+require File.expand_path("../../config/environment", __FILE__)
+require 'rspec/rails'
+require 'factory_bot_rails'
+require 'ffaker'
+require 'shoulda/matchers'
+
+Shoulda::Matchers.configure do |shoulda_config|
+  shoulda_config.integrate do |with|
+    with.test_framework :rspec
+    with.library :rails
+  end
+end
+
+# Requires supporting ruby files with custom matchers and macros, etc,
+# in spec/support/ and its subdirectories.
+Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
+
+# Checks for pending migrations before tests are run.
+# If you are not using ActiveRecord, you can remove this line.
+ActiveRecord::Migration.check_pending! if defined?(ActiveRecord::Migration)
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest
@@ -93,17 +116,8 @@ RSpec.configure do |config|
   # as the one that triggered the failure.
   Kernel.srand config.seed
 =end
-  require File.expand_path("../../config/environment", __FILE__)
-  require 'factory_girl_rails'
-  require 'ffaker'
-  require 'shoulda/matchers'
-  Shoulda::Matchers.configure do |shoulda_config|
-    shoulda_config.integrate do |with|
-      with.test_framework :rspec
-      with.library :rails
-    end
-  end
   #Including to test requests
-  Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
   config.include Request::JsonHelpers, :type => :controller
+  config.include Request::HeadersHelpers, :type => :controller
+  config.include Devise::Test::ControllerHelpers, type: :controller
 end

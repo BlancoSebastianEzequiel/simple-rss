@@ -4,7 +4,7 @@ RSpec.describe UsersController, type: :controller do
   before(:each) { request.headers['Accept'] = "application/vnd.marketplace.v1" }
   describe "GET #show" do
     before(:each) do
-      @user = FactoryGirl.create :user
+      @user = FactoryBot.create :user
       get :show, params: { id: @user.id }, format: :json
     end
 
@@ -20,7 +20,7 @@ RSpec.describe UsersController, type: :controller do
 
     context "when is successfully created" do
       before(:each) do
-        @user_attributes = FactoryGirl.attributes_for :user
+        @user_attributes = FactoryBot.attributes_for :user
         post :create, params: { user: @user_attributes }, format: :json
       end
 
@@ -57,7 +57,7 @@ RSpec.describe UsersController, type: :controller do
 
     context "when is successfully updated" do
       before(:each) do
-        @user = FactoryGirl.create :user
+        @user = FactoryBot.create :user
         patch :update, params: { id: @user.id, user: { user_name: "my_user_name" } }, format: :json
       end
 
@@ -71,7 +71,7 @@ RSpec.describe UsersController, type: :controller do
 
     context "when is not created" do
       before(:each) do
-        @user = FactoryGirl.create :user
+        @user = FactoryBot.create :user
         patch :update, params: { id: @user.id, user: { user_name: "bad user_name" } }, format: :json
       end
 
@@ -91,7 +91,7 @@ RSpec.describe UsersController, type: :controller do
 
   describe "DELETE #destroy" do
     before(:each) do
-      @user = FactoryGirl.create :user
+      @user = FactoryBot.create :user
       delete :destroy, params: { id: @user.id }, format: :json
     end
 

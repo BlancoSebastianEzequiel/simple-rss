@@ -2,7 +2,7 @@ require 'rails_helper'
 require 'spec_helper'
 
 RSpec.describe User, type: :model do
-  before { @user = FactoryGirl.build(:user) }
+  before { @user = FactoryBot.build(:user) }
   subject { @user }
   it { should respond_to(:user_name) }
   it { should respond_to(:password) }
@@ -27,7 +27,7 @@ RSpec.describe User, type: :model do
     end
 
     it "generates another token when one already has been taken" do
-      existing_user = FactoryGirl.create(:user, auth_token: "auniquetoken123")
+      existing_user = FactoryBot.create(:user, auth_token: "auniquetoken123")
       @user.generate_authentication_token!
       expect(@user.auth_token).not_to eql existing_user.auth_token
     end
