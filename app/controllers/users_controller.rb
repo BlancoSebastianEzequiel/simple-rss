@@ -15,8 +15,8 @@ class UsersController < ApplicationController
   end
 
   def update
-    user = User.find(params[:id])
-
+    user = current_user
+    # return render json: { errors: "no current user" }, status: 422 unless user
     if user.update(user_params)
       render json: user, status: 200#, location: [:api, user]
     else
@@ -25,8 +25,7 @@ class UsersController < ApplicationController
   end
 
   def destroy
-    user = User.find(params[:id])
-    user.destroy
+    current_user.destroy
     head 204
   end
 
