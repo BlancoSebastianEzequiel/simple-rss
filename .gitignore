@@ -3,3 +3,5 @@
 /tmp
 rspec.swp
 log/
+db/development.sqlite3
+db/test.sqlite3
