@@ -9,7 +9,6 @@ class App.Views.Signup extends App.View
     @$el.html(@template)
 
   signup: ->
-    console.log("here")
     @model.set(user: {
       user_name: $("#input_user_name").val()
       password: $("#input_password").val()

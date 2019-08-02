@@ -4,6 +4,7 @@ class App.Routers.Home extends App.Router
     "": "index"
     "signup": "signup"
     "login": "login"
+    "logged": "logged"
 
   index: ->
     model = new App.Models.Home {urlRoot: "/"}
@@ -20,6 +21,11 @@ class App.Routers.Home extends App.Router
   login: ->
     model = new App.Models.Login {urlRoot: "/login"}
     view = new App.Views.Login(model: model, router: this)
+    $('body').html(view.el)
+    view.render()
+
+  logged: ->
+    view = new App.Views.LoggedNavBar()
     $('body').html(view.el)
     view.render()
 
