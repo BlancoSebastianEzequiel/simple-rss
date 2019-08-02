@@ -19,13 +19,13 @@ class App.Routers.Home extends App.Router
     view.render()
 
   login: ->
-    model = new App.Models.Login {urlRoot: "/login"}
-    view = new App.Views.Login(model: model, router: this)
+    App.Sessions.Session = new App.Models.Session {urlRoot: "/sessions"}
+    view = new App.Views.Login(model: App.Sessions.Session, router: this)
     $('body').html(view.el)
     view.render()
 
   logged: ->
-    view = new App.Views.LoggedNavBar()
+    view = new App.Views.LoggedNavBar(model: App.Sessions.Session)
     $('body').html(view.el)
     view.render()
 

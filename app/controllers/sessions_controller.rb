@@ -17,8 +17,9 @@ class SessionsController < ApplicationController
 
   def destroy
     user = User.find_by(auth_token: params[:id])
+    return render json: { errors: "Invalid id" }, status: :unauthorized unless user
     user.generate_authentication_token!
     user.save
-    head 	:no_content
+    head :no_content
   end
 end

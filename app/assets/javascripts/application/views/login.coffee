@@ -9,7 +9,6 @@ class App.Views.Login extends App.View
     @$el.html(@template)
 
   login: =>
-    @userName = "nope"
     @model.set(session: {
       user_name: $("#input_user_name").val()
       password: $("#input_password").val()
@@ -17,6 +16,7 @@ class App.Views.Login extends App.View
     @model.save()
     .success (model, response, options) =>
       alert("success")
+      this.model.set("id", model.id)
     .error (model, xhr, options) =>
       alert(JSON.parse(xhr.responseText).errors)
     Backbone.history.navigate("logged", { trigger: true })
