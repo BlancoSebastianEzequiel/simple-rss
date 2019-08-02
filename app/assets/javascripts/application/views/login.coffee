@@ -7,6 +7,7 @@ class App.Views.Login extends App.View
 
   render: ->
     @$el.html(@template)
+    this
 
   login: =>
     @model.set(session: {

@@ -7,6 +7,7 @@ class App.Views.Signup extends App.View
 
   render: ->
     @$el.html(@template)
+    this
 
   signup: ->
     @model.set(user: {

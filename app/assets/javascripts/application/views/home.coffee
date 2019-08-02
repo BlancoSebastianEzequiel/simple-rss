@@ -8,6 +8,7 @@ class App.Views.Home extends App.View
 
   render: ->
     @$el.html(@template)
+    this
 
   go_to_signup_form: ->
     Backbone.history.navigate("signup", { trigger: true })
