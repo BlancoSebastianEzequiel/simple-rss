@@ -24,6 +24,8 @@
 #= require_tree ./views
 
 @App =
+  Sessions:
+    Session: {}
   Cache: {}
   Mixins: {}
   Helpers: {}
@@ -34,9 +36,3 @@
     Home: {}
 
 _.extend App, Backbone.Events
-
-$ ->
-  new App.Routers.Home()
-
-$ ->
-  Backbone.history.start pushState: true
