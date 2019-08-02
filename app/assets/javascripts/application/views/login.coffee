@@ -10,14 +10,12 @@ class App.Views.Login extends App.View
     this
 
   login: =>
-    @model.set(session: {
-      user_name: $("#input_user_name").val()
-      password: $("#input_password").val()
-    })
+    @model.set(user_name: $("#input_user_name").val())
+    @model.set(password: $("#input_password").val())
     @model.save()
     .success (model, response, options) =>
       alert("success")
       this.model.set("id", model.id)
-    .error (model, xhr, options) =>
-      alert(JSON.parse(xhr.responseText).errors)
-    Backbone.history.navigate("logged", { trigger: true })
+      Backbone.history.navigate("logged", { trigger: true })
+    .error (error) =>
+      alert(JSON.stringify(JSON.parse(error.responseText).errors))
