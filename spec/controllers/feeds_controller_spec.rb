@@ -49,4 +49,19 @@ RSpec.describe FeedsController, type: :controller do
       it { should respond_with :unprocessable_entity }
     end
   end
+  describe "GET #show" do
+    before(:each) do
+      @feed_attributes = FactoryBot.attributes_for :feed
+      post :create, params: { feed: @feed_attributes }, format: :json
+      get :show, params: { user_id: @user.id }, format: :json
+    end
+
+    it "returns the list of users feeds" do
+      feed_response = json_response
+      expect(feed_response.length).to eql 1
+      expect(feed_response[0][:url]).to eql @feed_attributes[:url]
+    end
+
+    it { should respond_with :ok }
+  end
 end

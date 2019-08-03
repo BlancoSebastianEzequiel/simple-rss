@@ -5,6 +5,15 @@ class FeedsController < ApplicationController
   respond_to :json
   wrap_parameters :feed, include: %i[url]
 
+  def show
+    feeds = User.find_by(id: current_user.id).feed
+    if feeds
+      render json: feeds, status: :ok
+    else
+      render json: { errors: feed.errors }, status: :unprocessable_entity
+    end
+  end
+
   def create
     feed = Feed.find_by(url: params[:feed][:url])
     feed = Feed.new(feed_params) if feed.nil?
