@@ -64,4 +64,16 @@ RSpec.describe FeedsController, type: :controller do
 
     it { should respond_with :ok }
   end
+
+  describe "DELETE #destroy" do
+    before(:each) do
+      @feed = FactoryBot.create :feed
+      @feed_attributes = FactoryBot.attributes_for :feed
+      post :create, params: { feed: @feed_attributes }, format: :json
+      delete :destroy, params: { id: @feed.id }, format: :json
+    end
+
+    it { should respond_with :no_content }
+
+  end
 end

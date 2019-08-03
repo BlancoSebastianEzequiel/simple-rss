@@ -25,6 +25,11 @@ class FeedsController < ApplicationController
     end
   end
 
+  def destroy
+    current_user.feed.find(params[:id]).delete
+    head 	:no_content
+  end
+
   private
 
   def feed_params

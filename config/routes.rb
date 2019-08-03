@@ -3,7 +3,7 @@ Rails.application.routes.draw do
   root 'home#index'
   resources :users, :only => [:show, :create, :update, :destroy]
   resources :sessions, :only => [:create, :destroy]
-  resources :feeds, :only => [:show, :create]
+  resources :feeds, :only => [:show, :create, :destroy]
   post "/signup" => 'users#create'
   post "/sessions" => 'sessions#create'
   delete "/sessions" => 'sessions#destroy'
