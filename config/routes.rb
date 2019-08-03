@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :feeds
   devise_for :users
   root 'home#index'
   resources :users, :only => [:show, :create, :update, :destroy]

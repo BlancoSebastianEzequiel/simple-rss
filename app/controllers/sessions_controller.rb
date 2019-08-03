@@ -9,6 +9,7 @@ class SessionsController < ApplicationController
       sign_in user, store: false
       user.generate_authentication_token!
       user.save
+      session[:user] = user
       render json: user, status: :ok
     else
       render json: { errors: "Invalid user name or password" }, status: :unprocessable_entity
@@ -20,6 +21,7 @@ class SessionsController < ApplicationController
     return render json: { errors: "Invalid id" }, status: :unauthorized unless user
     user.generate_authentication_token!
     user.save
+    session[:user] = nil
     head :no_content
   end
 end
