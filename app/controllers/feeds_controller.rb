@@ -6,17 +6,22 @@ class FeedsController < ApplicationController
   wrap_parameters :feed, include: %i[url]
 
   def show
+    return render json: { errors: "no token" }, status: :unauthorized unless current_user
     feeds = User.find_by(id: current_user.id).feed
     if feeds
-      render json: feeds, status: :ok
+      respond_with feeds
+      # render json: feeds, status: :ok
     else
       render json: { errors: feed.errors }, status: :unprocessable_entity
     end
+  rescue Exception => ex
+    render json: { errors: ex.message }, status: :internal_server_error
   end
 
   def create
     feed = Feed.find_by(url: params[:feed][:url])
     feed = Feed.new(feed_params) if feed.nil?
+    return render json: { errors: "no token" }, status: :unauthorized unless current_user
     feed.user << current_user
     if feed.save
       render json: feed, status: :created
