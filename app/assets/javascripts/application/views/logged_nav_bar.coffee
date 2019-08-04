@@ -7,6 +7,7 @@ class App.Views.LoggedNavBar extends App.View
     'click #get_feeds': 'showFeeds'
     'click #post_feeds': 'postFeeds'
     'click #new_feed_submit': 'saveFeed'
+    'click .unsubscribe': 'unsubscribeFeed'
 
   initialize: ->
     @feedsList = new App.Collections.Feeds
@@ -35,6 +36,12 @@ class App.Views.LoggedNavBar extends App.View
         alert(JSON.stringify(JSON.parse(error.responseText).errors))
     })
     @$el.find("#feed_list").html(@feedsView.render().el)
+
+  unsubscribeFeed: (event) ->
+    event.preventDefault()
+    id = event.currentTarget.id
+    a_model = @feedsList.get(id)
+    a_model.destroy(headers: { "Authorization": localStorage.getItem("auth_token") })
 
   logout: ->
     @model.set("id", localStorage.getItem("auth_token"))

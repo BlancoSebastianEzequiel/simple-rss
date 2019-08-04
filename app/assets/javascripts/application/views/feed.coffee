@@ -2,8 +2,12 @@ class App.Views.Feed extends App.View
 
   template: JST['application/templates/feed_list']
 
+  initialize: ->
+    @model.on("hide", this.remove, this)
+
   render: ->
     url = @model.get("url")
     title = @model.get("title")
-    @$el.html(@template({ url, title }))
+    id = @model.get("id")
+    @$el.html(@template({ url, title, id }))
     this

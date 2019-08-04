@@ -36,6 +36,7 @@ class FeedsController < ApplicationController
   end
 
   def destroy
+    return render json: { errors: "no token" }, status: :unauthorized unless current_user
     current_user.feed.find(params[:id]).delete
     head 	:no_content
   end
