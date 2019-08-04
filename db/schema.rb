@@ -10,7 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_03_040734) do
+ActiveRecord::Schema.define(version: 2019_08_04_190804) do
+
+  create_table "articles", force: :cascade do |t|
+    t.string "title", null: false
+    t.string "link", null: false
+    t.integer "feed_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["link"], name: "index_articles_on_link", unique: true
+  end
 
   create_table "feeds", force: :cascade do |t|
     t.text "url", null: false
