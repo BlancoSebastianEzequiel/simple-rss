@@ -4,7 +4,7 @@ class App.Views.Feeds extends App.View
 
   initialize: ->
     @collection.on('add', this.addOne, this)
-    @collection.on('reset', this.addAll, this)
+    @collection.on('change', this.addAll, this)
 
   addOne: (feedItem) ->
     feedView = new App.Views.Feed(model: feedItem)
@@ -16,6 +16,5 @@ class App.Views.Feeds extends App.View
   render: ->
     @collection.fetch({
       headers: { "Authorization": localStorage.getItem("auth_token") }
-      reset: true
     })
     this
