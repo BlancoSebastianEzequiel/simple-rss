@@ -27,6 +27,7 @@ class FeedsController < ApplicationController
     end
     feed.user << current_user
     if feed.save
+      Article.create(get_articles(feed.url, feed.id))
       render json: feed, status: :created
     else
       render json: { errors: feed.errors }, status: :unprocessable_entity
@@ -50,6 +51,17 @@ class FeedsController < ApplicationController
       feed = RSS::Parser.parse(rss)
       parsed_params[:title] = feed.channel.title
       parsed_params
+    end
+  end
+
+  def get_articles(url, feed_id)
+    open(url) do |rss|
+      feed = RSS::Parser.parse(rss)
+      articles = []
+      feed.items.each do |item|
+        articles << { feed_id: feed_id, link: item.link, title: item.title }
+      end
+      articles
     end
   end
 end

@@ -4,9 +4,11 @@ Rails.application.routes.draw do
   resources :users, :only => [:show, :create, :update, :destroy]
   resources :sessions, :only => [:create, :destroy]
   resources :feeds, :only => [:show, :create, :destroy]
+  resources :articles, :only => [:show]
   post "/signup" => 'users#create'
   post "/sessions" => 'sessions#create'
   delete "/sessions" => 'sessions#destroy'
   get "/feeds" => 'feeds#show'
+  get "articles" => 'articles#show'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
