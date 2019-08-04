@@ -22,12 +22,17 @@ class FeedsController < ApplicationController
     feed = Feed.find_by(url: params[:feed][:url])
     feed = Feed.new(feed_params) if feed.nil?
     return render json: { errors: "no token" }, status: :unauthorized unless current_user
+    if feed.user.any? { |a_user| a_user.id == current_user.id }
+      return render json: { errors: "you are already subscribed to this feed" }, status: :unprocessable_entity
+    end
     feed.user << current_user
     if feed.save
       render json: feed, status: :created
     else
       render json: { errors: feed.errors }, status: :unprocessable_entity
     end
+  rescue Exception => ex
+    render json: { errors: ex.message }, status: :internal_server_error
   end
 
   def destroy
