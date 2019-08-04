@@ -8,12 +8,11 @@ class ArticlesController < ApplicationController
 
   def show
     return render json: { errors: "no token" }, status: :unauthorized unless current_user
-    articles = Feed.find_by(id: params[:feed_id]).articles
-    if articles
-      respond_with articles
-    else
-      render json: { errors: articles.errors }, status: :unprocessable_entity
+    feed = Feed.find_by(id: params[:feed_id])
+    if feed.user.all? { |a_user| a_user.id != current_user.id }
+      return render json: { errors: "you are not subscribed to this feed" }, status: :unprocessable_entity
     end
+    respond_with feed.articles
   rescue Exception => ex
     render json: { errors: ex.message }, status: :internal_server_error
   end
