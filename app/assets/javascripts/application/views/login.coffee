@@ -9,12 +9,12 @@ class App.Views.Login extends App.View
     @$el.html(@template)
     this
 
-  login: ->
+  login: =>
     @model.set(user_name: $("#input_user_name").val())
     @model.set(password: $("#input_password").val())
     @model.save()
     .success (model, response, options) =>
       localStorage.setItem("auth_token", model.auth_token)
+      Backbone.history.navigate("logged", { trigger: true })
     .error (error) =>
       alert(JSON.stringify(JSON.parse(error.responseText).errors))
-    Backbone.history.navigate("logged", { trigger: true })
