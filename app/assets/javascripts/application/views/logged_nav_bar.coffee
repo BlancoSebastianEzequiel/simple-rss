@@ -26,12 +26,14 @@ class App.Views.LoggedNavBar extends App.View
   saveFeed: (event) ->
     event.preventDefault()
     newFeed = new App.Models.Feeds { url: $("#input_url").val() }
-    newFeed.save(_, { headers: { "Authorization": localStorage.getItem("auth_token") } })
-    .success (model, response, options) =>
-      alert("success")
-    .error (error) =>
-      alert(JSON.stringify(JSON.parse(error.responseText).errors))
-    @feedsList.add(newFeed)
+    newFeed.save(_, _, {
+      headers: { "Authorization": localStorage.getItem("auth_token") }
+      success: (model, response, options) =>
+        alert("success")
+        @feedsList.add(newFeed)
+      error: (model, error) =>
+        alert(JSON.stringify(JSON.parse(error.responseText).errors))
+    })
     @$el.find("#feed_list").html(@feedsView.render().el)
 
   logout: ->
