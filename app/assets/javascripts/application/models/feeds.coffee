@@ -1,4 +1,4 @@
-class App.Models.Feeds extends App.Model
+class App.Models.Feed extends App.Model
   urlRoot: "/feeds"
   defaults:
     url: ""

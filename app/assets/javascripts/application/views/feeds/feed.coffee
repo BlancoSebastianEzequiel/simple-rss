@@ -1,6 +1,6 @@
 class App.Views.Feed extends App.View
 
-  template: JST['application/templates/feed_list']
+  template: JST['application/templates/feed']
 
   initialize: ->
     @model.on("hide", this.remove, this)

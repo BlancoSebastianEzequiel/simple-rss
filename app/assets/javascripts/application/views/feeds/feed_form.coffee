@@ -1,4 +1,4 @@
-class App.Views.FeedForm extends App.View
+class App.Views.NewFeedForm extends App.View
 
   template: JST['application/templates/feed_form']
 
