@@ -12,7 +12,7 @@ class App.Views.Articles extends App.View
 
   addOne: (articleItem) ->
     articleView = new App.Views.Article(model: articleItem)
-    @.$el.append(articleView.render().el)
+    @$el.find("#article_list").append(articleView.render().el)
 
   addAll: ->
     @collection.forEach(this.addOne, this)
