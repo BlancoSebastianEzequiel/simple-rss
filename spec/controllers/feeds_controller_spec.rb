@@ -70,10 +70,20 @@ RSpec.describe FeedsController, type: :controller do
       @feed = FactoryBot.create :feed
       @feed_attributes = FactoryBot.attributes_for :feed
       post :create, params: { feed: @feed_attributes }, format: :json
-      delete :destroy, params: { id: @feed.id }, format: :json
     end
 
-    it { should respond_with :no_content }
+    it "remove user-feed asociation" do
+      @another_user = FactoryBot.create :user
+      api_authorization_header(@another_user.auth_token)
+      post :create, params: { feed: @feed_attributes }, format: :json
+      delete :destroy, params: { id: @feed.id }, format: :json
+      should respond_with :ok
+    end
 
+    it "remove user-feed asociation and the feed itself" do
+      post :create, params: { feed: @feed_attributes }, format: :json
+      delete :destroy, params: { id: @feed.id }, format: :json
+      should respond_with :no_content
+    end
   end
 end
