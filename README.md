@@ -1,9 +1,8 @@
 # simple-rss
 
-* Ruby version `2.6.3`
-
 * System dependencies 
   * Install RVM following these instructions: `https://rvm.io/rvm/install`
+  * Ruby version `2.6.3`
   * OS: Ubuntu 18
   * Install `curl`
   * Install nvm: `curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash`
