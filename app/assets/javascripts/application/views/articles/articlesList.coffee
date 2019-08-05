@@ -14,7 +14,6 @@ class App.Views.ArticlesList extends App.View
   save: ->
     a_model = new App.Models.Articles
     a_model.save("article", { feed_id: localStorage.getItem("current_feed_id") }, {
-      headers: { "Authorization": localStorage.getItem("auth_token") }
       method: "patch"
       success: (model, response, options) =>
         alert("success")
@@ -25,7 +24,6 @@ class App.Views.ArticlesList extends App.View
   render: ->
     @collection.fetch({
       data: { feed_id: localStorage.getItem("current_feed_id") }
-      headers: { "Authorization": localStorage.getItem("auth_token") }
       success: (model, response, options) =>
         alert("success")
       error: (error) =>
