@@ -1,6 +1,6 @@
 class App.Views.Article extends App.View
 
-  template: JST['application/templates/article_list']
+  template: JST['application/templates/article']
 
   initialize: ->
     @model.on("hide", this.remove, this)

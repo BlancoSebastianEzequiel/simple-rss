@@ -1,6 +1,12 @@
 class App.Views.Articles extends App.View
 
+  template: JST['application/templates/article_list']
+
+  events:
+    'click .refresh_articles': "refreshArticles"
+
   initialize: ->
+    @$el.html(@template)
     @collection.on('add', this.addOne, this)
     @collection.on('change', this.addAll, this)
 
@@ -20,6 +26,11 @@ class App.Views.Articles extends App.View
       error: (error) =>
         alert("ERROR: " + JSON.stringify(error))
     })
+
+  refreshArticles: (event) ->
+    event.preventDefault()
+    this.save()
+    this.render()
 
   render: ->
     @collection.fetch({

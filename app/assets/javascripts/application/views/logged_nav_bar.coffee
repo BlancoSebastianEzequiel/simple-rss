@@ -4,11 +4,6 @@ class App.Views.LoggedNavBar extends App.View
 
   events:
     'click #logout': 'logout'
-    'click #get_feeds': 'showFeeds'
-    'click #post_feeds': 'postFeeds'
-    'click .unsubscribe': 'unsubscribeFeed'
-    'click .get_articles': 'getArticles'
-    'click .refresh_articles': "refreshArticles"
 
   initialize: ->
     @feedsList = new App.Collections.Feeds
@@ -20,33 +15,13 @@ class App.Views.LoggedNavBar extends App.View
 
   render: ->
     @$el.html(@template)
-    this
-
-  showFeeds: ->
+    @$el.find("#new_feed_form").html(@newFeedForm.render().el)
     @$el.find("#feed_list").html(@feedsView.render().el)
-
-  postFeeds: ->
-    @$el.find("#feed_list").html(@newFeedForm.render().el)
-
-  unsubscribeFeed: (event) ->
-    event.preventDefault()
-    id = event.currentTarget.id
-    feed = @feedsList.get(id)
-    feed.destroy()
-
-  getArticles: (event) ->
-    event.preventDefault()
-    localStorage.setItem("current_feed_id", event.currentTarget.id)
-    @$el.find("#feed_list").html(@articlesView.render().el)
-
-  refreshArticles: (event) ->
-    event.preventDefault()
-    localStorage.setItem("current_feed_id", event.currentTarget.id)
-    @articlesView.save()
-    @$el.find("#feed_list").html(@articlesView.render().el)
+    this
 
   logout: ->
     @model.set("id", localStorage.getItem("auth_token"))
+    localStorage.setItem("auth_token", null)
     @model.destroy()
     alert("goodbye!")
     Backbone.history.navigate("", { trigger: true })

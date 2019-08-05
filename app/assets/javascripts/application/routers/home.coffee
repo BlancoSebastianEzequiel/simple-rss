@@ -5,6 +5,7 @@ class App.Routers.Home extends App.Router
     "signup": "signup"
     "login": "login"
     "logged": "logged"
+    "articles": "articles"
 
   index: ->
     view = new App.Views.Home()
@@ -18,13 +19,17 @@ class App.Routers.Home extends App.Router
     view.render()
 
   login: ->
-    App.Sessions.Session = new App.Models.Session
-    view = new App.Views.Login(model: App.Sessions.Session)
+    view = new App.Views.Login(model: new App.Models.Session)
     $('body').html(view.el)
     view.render()
 
   logged: ->
-    view = new App.Views.LoggedNavBar(model: App.Sessions.Session)
+    view = new App.Views.LoggedNavBar(model: new App.Models.Session)
+    $('body').html(view.el)
+    view.render()
+
+  articles: ->
+    view = new App.Views.Articles(collection: new App.Collections.Articles)
     $('body').html(view.el)
     view.render()
 
