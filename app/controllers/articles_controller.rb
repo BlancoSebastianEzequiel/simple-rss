@@ -29,7 +29,7 @@ class ArticlesController < ApplicationController
   def show
     return render json: { errors: "no token" }, status: :unauthorized unless current_user
     feed = Feed.find_by(id: params[:feed_id])
-    if feed.user.all? { |a_user| a_user.id != current_user.id }
+    if feed.users.all? { |a_user| a_user.id != current_user.id }
       return render json: { errors: "you are not subscribed to this feed" }, status: :unprocessable_entity
     end
     respond_with feed.articles

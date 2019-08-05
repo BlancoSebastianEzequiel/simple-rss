@@ -5,7 +5,7 @@ RSpec.describe ArticlesController, type: :controller do
     @user = FactoryBot.create :user
     api_authorization_header(@user.auth_token)
     @feed = FactoryBot.create :feed
-    @feed.user << @user
+    @feed.users << @user
   end
 
   describe "PUT/PATCH #update" do

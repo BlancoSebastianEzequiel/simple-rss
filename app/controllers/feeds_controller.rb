@@ -7,10 +7,9 @@ class FeedsController < ApplicationController
 
   def show
     return render json: { errors: "no token" }, status: :unauthorized unless current_user
-    feeds = User.find_by(id: current_user.id).feed
+    feeds = User.find_by(id: current_user.id).feeds
     if feeds
       respond_with feeds
-      # render json: feeds, status: :ok
     else
       render json: { errors: feed.errors }, status: :unprocessable_entity
     end
@@ -19,13 +18,12 @@ class FeedsController < ApplicationController
   end
 
   def create
-    feed = Feed.find_by(url: params[:feed][:url])
-    feed = Feed.new(feed_params) if feed.nil?
+    feed = Feed.find_by(url: params[:feed][:url]) || Feed.new(feed_params)
     return render json: { errors: "no token" }, status: :unauthorized unless current_user
-    if feed.user.any? { |a_user| a_user.id == current_user.id }
+    if feed.users.any? { |a_user| a_user.id == current_user.id }
       return render json: { errors: "you are already subscribed to this feed" }, status: :unprocessable_entity
     end
-    feed.user << current_user
+    feed.users << current_user
     if feed.save
       render json: feed, status: :created
     else
@@ -37,16 +35,19 @@ class FeedsController < ApplicationController
 
   def destroy
     return render json: { errors: "no token" }, status: :unauthorized unless current_user
-    feed = current_user.feed.find(params[:id])
+    feed = current_user.feeds.find(params[:id])
+    current_user.feeds.delete(feed)
     articles_deleted = []
-    if feed.user.length == 1
+    if feed.users.length == 0
       feed.articles.each do |article|
-        articles_deleted << article.id
+        articles_deleted << article
         article.delete
       end
+      feed.delete
+      render json: { feed:  feed, articles_deleted: articles_deleted }, status: :no_content
+    else
+      render json: { feed:  feed, articles_deleted: articles_deleted }, status: :ok
     end
-    feed.delete
-    render json: { feed:  feed, articles_deleted: articles_deleted }, status: :no_content
   end
 
   private

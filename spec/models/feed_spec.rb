@@ -6,7 +6,7 @@ RSpec.describe Feed, type: :model do
   it { should respond_to(:url) }
   it { should respond_to(:title) }
   it { should be_valid }
-  it { should have_and_belong_to_many :user }
+  it { should have_and_belong_to_many :users }
 
   describe "when url is not present" do
     before { @feed.url = " " }
