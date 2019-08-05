@@ -15,6 +15,6 @@ class App.Views.Login extends App.View
     @model.save()
     .success (model, response, options) =>
       localStorage.setItem("auth_token", model.auth_token)
-      Backbone.history.navigate("logged", { trigger: true })
+      Backbone.history.loadUrl("", { trigger: true })
     .error (error) =>
       alert(JSON.stringify(JSON.parse(error.responseText).errors))

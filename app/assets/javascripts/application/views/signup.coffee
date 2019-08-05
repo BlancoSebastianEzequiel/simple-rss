@@ -16,6 +16,6 @@ class App.Views.Signup extends App.View
     @model.save()
     .success (model, response, options) =>
       alert("success signup")
-      Backbone.history.navigate("login", { trigger: true })
+      Backbone.history.loadUrl("login", { trigger: true })
     .error (error) =>
       alert(JSON.stringify(JSON.parse(error.responseText).errors))
