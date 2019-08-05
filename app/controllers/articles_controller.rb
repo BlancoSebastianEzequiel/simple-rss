@@ -22,8 +22,6 @@ class ArticlesController < ApplicationController
     render json: articles, status: :ok
   rescue CustomExceptions::BadParams => ex
     render json: { errors: ex.message }, status: ex.status
-  rescue StandardError => ex
-    render json: { errors: ex.message }, status: :internal_server_error
   end
 
   def show
