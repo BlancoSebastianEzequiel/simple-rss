@@ -7,7 +7,7 @@ class FeedsController < ApplicationController
 
   def show
     return render json: { errors: "no token" }, status: :unauthorized unless current_user
-    feeds = User.find_by(id: current_user.id).feeds
+    feeds = current_user.feeds
     if feeds
       respond_with feeds
     else

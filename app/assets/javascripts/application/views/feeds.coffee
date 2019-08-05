@@ -8,13 +8,11 @@ class App.Views.Feeds extends App.View
 
   addOne: (feedItem) ->
     feedView = new App.Views.Feed(model: feedItem)
-    @.$el.append(feedView.render().el)
+    @$el.append(feedView.render().el)
 
   addAll: ->
     @collection.forEach(this.addOne, this)
 
   render: ->
-    @collection.fetch({
-      headers: { "Authorization": localStorage.getItem("auth_token") }
-    })
+    @collection.fetch()
     this

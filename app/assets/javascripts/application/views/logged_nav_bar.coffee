@@ -26,9 +26,8 @@ class App.Views.LoggedNavBar extends App.View
 
   saveFeed: (event) ->
     event.preventDefault()
-    newFeed = new App.Models.Feeds { url: $("#input_url").val() }
+    newFeed = new App.Models.Feed { url: $("#input_url").val() }
     newFeed.save(_, _, {
-      headers: { "Authorization": localStorage.getItem("auth_token") }
       success: (model, response, options) =>
         alert("success")
         @feedsList.add(newFeed)
@@ -40,8 +39,8 @@ class App.Views.LoggedNavBar extends App.View
   unsubscribeFeed: (event) ->
     event.preventDefault()
     id = event.currentTarget.id
-    a_model = @feedsList.get(id)
-    a_model.destroy(headers: { "Authorization": localStorage.getItem("auth_token") })
+    feed = @feedsList.get(id)
+    feed.destroy()
 
   logout: ->
     @model.set("id", localStorage.getItem("auth_token"))

@@ -1,5 +1,5 @@
 class App.Collections.Feeds extends App.Collection
-  model: App.Models.Feeds
+  model: App.Models.Feed
   url: "/feeds"
 
   initialize: ->
