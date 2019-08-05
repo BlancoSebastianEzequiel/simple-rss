@@ -3,9 +3,8 @@
 * System dependencies 
   * Install RVM following these instructions: `https://rvm.io/rvm/install`
   * Ruby version `2.6.3`
-  * OS: Ubuntu 18
   * Install `curl`
-  * Install nvm: `curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.11/install.sh | bash`
+  * Install nvm following these instructions: `https://github.com/nvm-sh/nvm#installation-and-update`
   * Install Node 8: `nvm install 8`  
 * Configuration
   * Clone the repository by typing: `git clone https://gitlab.devartis.com/sblanco/simple-rss.git`
