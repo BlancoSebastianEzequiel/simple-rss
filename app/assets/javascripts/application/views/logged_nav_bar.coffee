@@ -26,14 +26,7 @@ class App.Views.LoggedNavBar extends App.View
 
   saveFeed: (event) ->
     event.preventDefault()
-    newFeed = new App.Models.Feed { url: $("#input_url").val() }
-    newFeed.save(_, _, {
-      success: (model, response, options) =>
-        alert("success")
-        @feedsList.add(newFeed)
-      error: (model, error) =>
-        alert(JSON.stringify(JSON.parse(error.responseText).errors))
-    })
+    @feedsView.save()
     @$el.find("#feed_list").html(@feedsView.render().el)
 
   unsubscribeFeed: (event) ->
