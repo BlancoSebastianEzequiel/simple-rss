@@ -10,7 +10,6 @@ class FeedsController < ApplicationController
     feeds = User.find_by(id: current_user.id).feed
     if feeds
       respond_with feeds
-      # render json: feeds, status: :ok
     else
       render json: { errors: feed.errors }, status: :unprocessable_entity
     end
