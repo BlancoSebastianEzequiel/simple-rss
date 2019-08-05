@@ -18,6 +18,6 @@
 * run tests
   * `bundle exec rspec`
 * Run server
-  * `rails s`
+  * Run server `rails s`
   * Open browser on  `localhost:3000`
  
