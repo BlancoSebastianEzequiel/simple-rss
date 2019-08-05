@@ -3,7 +3,6 @@
 * System dependencies 
   * Install RVM following these instructions: `https://rvm.io/rvm/install`
   * Ruby version `2.6.3`
-  * Install `curl`
   * Install nvm following these instructions: `https://github.com/nvm-sh/nvm#installation-and-update`
   * Install Node 8: `nvm install 8`  
 * Configuration
