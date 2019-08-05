@@ -4,10 +4,16 @@ class App.Routers.Home extends App.Router
     "": "index"
     "signup": "signup"
     "login": "login"
-    "logged": "logged"
     "articles": "articles"
 
   index: ->
+    if localStorage.getItem("auth_token") == "null"
+      this.home()
+    else
+      this.logged()
+
+
+  home: ->
     view = new App.Views.Home()
     $('body').html(view.el)
     view.render()
