@@ -12,7 +12,7 @@ class App.Views.LoggedNavBar extends App.View
   initialize: ->
     @feedsList = new App.Collections.Feeds
     @feedsView = new App.Views.Feeds(collection: @feedsList)
-    @feedsForm = new App.Views.FeedForm(collection: @feedsList)
+    @newFeedForm = new App.Views.NewFeedForm(collection: @feedsList)
 
   render: ->
     @$el.html(@template)
@@ -22,7 +22,7 @@ class App.Views.LoggedNavBar extends App.View
     @$el.find("#feed_list").html(@feedsView.render().el)
 
   postFeeds: ->
-    @$el.find("#feed_list").html(@feedsForm.render().el)
+    @$el.find("#feed_list").html(@newFeedForm.render().el)
 
   saveFeed: (event) ->
     event.preventDefault()
