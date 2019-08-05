@@ -6,7 +6,6 @@ class App.Views.LoggedNavBar extends App.View
     'click #logout': 'logout'
     'click #get_feeds': 'showFeeds'
     'click #post_feeds': 'postFeeds'
-    'click #new_feed_submit': 'saveFeed'
     'click .unsubscribe': 'unsubscribeFeed'
     'click .get_articles': 'getArticles'
     'click .refresh_articles': "refreshArticles"
@@ -28,11 +27,6 @@ class App.Views.LoggedNavBar extends App.View
 
   postFeeds: ->
     @$el.find("#feed_list").html(@newFeedForm.render().el)
-
-  saveFeed: (event) ->
-    event.preventDefault()
-    @feedsView.save()
-    @$el.find("#feed_list").html(@feedsView.render().el)
 
   unsubscribeFeed: (event) ->
     event.preventDefault()
