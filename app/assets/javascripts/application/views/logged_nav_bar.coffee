@@ -17,7 +17,7 @@ class App.Views.LoggedNavBar extends App.View
     @newFeedForm = new App.Views.NewFeedForm(collection: @feedsList)
 
     @articlesList = new App.Collections.Articles
-    @articlesView = new App.Views.ArticlesList(collection: @articlesList)
+    @articlesView = new App.Views.Articles(collection: @articlesList)
 
   render: ->
     @$el.html(@template)

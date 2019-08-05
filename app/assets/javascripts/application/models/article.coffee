@@ -1,4 +1,4 @@
-class App.Models.Articles extends App.Model
+class App.Models.Article extends App.Model
   urlRoot: "/articles"
   defaults:
     link: ""

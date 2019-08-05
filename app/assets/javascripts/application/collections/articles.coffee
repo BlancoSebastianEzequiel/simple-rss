@@ -1,5 +1,5 @@
 class App.Collections.Articles extends App.Collection
-  model: App.Models.Articles
+  model: App.Models.Article
   url: "/articles"
 
   initialize: ->

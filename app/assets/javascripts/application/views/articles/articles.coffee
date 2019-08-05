@@ -1,4 +1,4 @@
-class App.Views.ArticlesList extends App.View
+class App.Views.Articles extends App.View
 
   initialize: ->
     @collection.on('add', this.addOne, this)
@@ -12,8 +12,8 @@ class App.Views.ArticlesList extends App.View
     @collection.forEach(this.addOne, this)
 
   save: ->
-    a_model = new App.Models.Articles
-    a_model.save("article", { feed_id: localStorage.getItem("current_feed_id") }, {
+    article = new App.Models.Article
+    article.save("article", { feed_id: localStorage.getItem("current_feed_id") }, {
       method: "patch"
       success: (model, response, options) =>
         alert("success")
