@@ -13,8 +13,6 @@ class FeedsController < ApplicationController
     else
       render json: { errors: feed.errors }, status: :unprocessable_entity
     end
-  rescue Exception => ex
-    render json: { errors: ex.message }, status: :internal_server_error
   end
 
   def create
@@ -29,8 +27,6 @@ class FeedsController < ApplicationController
     else
       render json: { errors: feed.errors }, status: :unprocessable_entity
     end
-  rescue Exception => ex
-    render json: { errors: ex.message }, status: :internal_server_error
   end
 
   def destroy
