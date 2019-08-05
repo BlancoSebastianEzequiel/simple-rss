@@ -70,10 +70,27 @@ RSpec.describe FeedsController, type: :controller do
       @feed = FactoryBot.create :feed
       @feed_attributes = FactoryBot.attributes_for :feed
       post :create, params: { feed: @feed_attributes }, format: :json
-      delete :destroy, params: { id: @feed.id }, format: :json
     end
 
-    it { should respond_with :no_content }
+    it "deletes all articles if the feed does not have any user" do
+      @article = FactoryBot.create(:article, feed_id: @feed.id)
+      @feed.articles << @article
+      delete :destroy, params: { id: @feed.id }, format: :json
+      feed_response = json_response
+      expect(feed_response[:articles_deleted].length).to eql 1
+      should respond_with :no_content
+    end
 
+    it "deletes feed subscription to the current user" do
+      @another_user = FactoryBot.create :user
+      api_authorization_header(@another_user.auth_token)
+      post :create, params: { feed: @feed_attributes }, format: :json
+      @article = FactoryBot.create(:article, feed_id: @feed.id)
+      @feed.articles << @article
+      delete :destroy, params: { id: @feed.id }, format: :json
+      feed_response = json_response
+      expect(feed_response[:articles_deleted].length).to eql 0
+      should respond_with :no_content
+    end
   end
 end

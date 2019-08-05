@@ -37,8 +37,16 @@ class FeedsController < ApplicationController
 
   def destroy
     return render json: { errors: "no token" }, status: :unauthorized unless current_user
-    current_user.feed.find(params[:id]).delete
-    head 	:no_content
+    feed = current_user.feed.find(params[:id])
+    articles_deleted = []
+    if feed.user.length == 1
+      feed.articles.each do |article|
+        articles_deleted << article.id
+        article.delete
+      end
+    end
+    feed.delete
+    render json: { feed:  feed, articles_deleted: articles_deleted }, status: :no_content
   end
 
   private
