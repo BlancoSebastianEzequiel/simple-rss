@@ -18,8 +18,9 @@ class FeedsController < ApplicationController
   end
 
   def create
-    feed = Feed.find_by(url: params[:feed][:url])
-    feed = Feed.new(feed_params) if feed.nil?
+    # feed = Feed.find_by(url: params[:feed][:url])
+    # feed = Feed.new(feed_params) if feed.nil?
+    feed = Feed.find_by(url: params[:feed][:url]) || Feed.new(feed_params)
     return render json: { errors: "no token" }, status: :unauthorized unless current_user
     if feed.user.any? { |a_user| a_user.id == current_user.id }
       return render json: { errors: "you are already subscribed to this feed" }, status: :unprocessable_entity
