@@ -21,8 +21,9 @@ class App.Views.Feeds extends App.View
 
   unsubscribeFeed: (event) ->
     event.preventDefault()
-    feed = @collection.get(event.currentTarget.id)
-    feed.destroy()
+    if window.confirm("Do you really unsubscribe?")
+      feed = @collection.get(event.currentTarget.id)
+      feed.destroy()
 
   getArticles: (event) ->
     event.preventDefault()
