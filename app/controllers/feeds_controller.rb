@@ -4,9 +4,9 @@ require 'open-uri'
 class FeedsController < ApplicationController
   respond_to :json
   wrap_parameters :feed, include: %i[url]
+  before_action :authenticate_with_token!, :only => [:show, :create, :destroy]
 
   def show
-    return render json: { errors: "no token" }, status: :unauthorized unless current_user
     feeds = current_user.feeds
     if feeds
       respond_with feeds
@@ -17,7 +17,6 @@ class FeedsController < ApplicationController
 
   def create
     feed = Feed.find_by(url: params[:feed][:url]) || Feed.new(feed_params)
-    return render json: { errors: "no token" }, status: :unauthorized unless current_user
     if feed.users.any? { |a_user| a_user.id == current_user.id }
       return render json: { errors: "you are already subscribed to this feed" }, status: :unprocessable_entity
     end
@@ -27,17 +26,20 @@ class FeedsController < ApplicationController
     else
       render json: { errors: feed.errors }, status: :unprocessable_entity
     end
+  rescue CustomExceptions::BadRss => ex
+    render json: { errors: ex.message }, status: ex.status
   end
 
   def destroy
-    return render json: { errors: "no token" }, status: :unauthorized unless current_user
     feed = current_user.feeds.find(params[:id])
     current_user.feeds.delete(feed)
+    articles_deleted = []
     if feed.users.length == 0
-      feed.delete if feed.users.length == 0
-      head :no_content
+      articles_deleted = feed.articles.destroy_all
+      feed.delete
+      render json: { feed:  feed, articles_deleted: articles_deleted }, status: :no_content
     else
-      head :ok
+      render json: { feed:  feed, articles_deleted: articles_deleted }, status: :ok
     end
   end
 
@@ -51,5 +53,7 @@ class FeedsController < ApplicationController
       parsed_params[:title] = feed.channel.title
       parsed_params
     end
+  rescue
+    raise CustomExceptions::BadRss.new("your url rss is not valid")
   end
 end

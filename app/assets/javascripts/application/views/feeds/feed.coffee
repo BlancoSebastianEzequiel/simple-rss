@@ -9,5 +9,5 @@ class App.Views.Feed extends App.View
     url = @model.get("url")
     title = @model.get("title")
     id = @model.get("id")
-    @$el.html(@template({ url, title, id }))
+    @$el.html(@template({ id, url, title }))
     this

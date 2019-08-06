@@ -24,8 +24,7 @@
 #= require_tree ./views
 
 @App =
-  Sessions:
-    Session: {}
+  Sessions: {}
   Cache: {}
   Mixins: {}
   Helpers: {}

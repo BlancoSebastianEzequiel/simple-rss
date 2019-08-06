@@ -13,3 +13,21 @@ module Authenticable
     current_user.present?
   end
 end
+
+module CustomExceptions
+  class BadRss < StandardError
+    attr_reader :status
+    def initialize(msg="My default message")
+      @status = :bad_request
+      super(msg)
+    end
+  end
+
+  class BadParams < StandardError
+    attr_reader :status
+    def initialize(msg="My default message")
+      @status = :bad_request
+      super(msg)
+    end
+  end
+end

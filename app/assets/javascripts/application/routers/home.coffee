@@ -4,9 +4,16 @@ class App.Routers.Home extends App.Router
     "": "index"
     "signup": "signup"
     "login": "login"
-    "logged": "logged"
+    "articles": "articles"
 
   index: ->
+    if localStorage.getItem("auth_token") == "null"
+      this.home()
+    else
+      this.logged()
+
+
+  home: ->
     view = new App.Views.Home()
     $('body').html(view.el)
     view.render()
@@ -18,13 +25,17 @@ class App.Routers.Home extends App.Router
     view.render()
 
   login: ->
-    App.Sessions.Session = new App.Models.Session
-    view = new App.Views.Login(model: App.Sessions.Session)
+    view = new App.Views.Login(model: new App.Models.Session)
     $('body').html(view.el)
     view.render()
 
   logged: ->
-    view = new App.Views.LoggedNavBar(model: App.Sessions.Session)
+    view = new App.Views.LoggedNavBar(model: new App.Models.Session)
+    $('body').html(view.el)
+    view.render()
+
+  articles: ->
+    view = new App.Views.Articles(collection: new App.Collections.Articles)
     $('body').html(view.el)
     view.render()
 

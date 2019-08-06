@@ -14,8 +14,8 @@ class App.Views.Signup extends App.View
     @model.set(password: $("#input_password").val())
     @model.set(password_confirmation: $("#input_password_confirmation").val())
     @model.save()
-    .success (model, response, options) =>
+    .success (model, response, options) ->
       alert("success signup")
-      Backbone.history.navigate("login", { trigger: true })
-    .error (error) =>
+      Backbone.history.loadUrl("login", { trigger: true })
+    .error (error) ->
       alert(JSON.stringify(JSON.parse(error.responseText).errors))

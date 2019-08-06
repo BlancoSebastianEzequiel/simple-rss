@@ -48,6 +48,27 @@ RSpec.describe FeedsController, type: :controller do
 
       it { should respond_with :unprocessable_entity }
     end
+
+    context "when is the url is not valid" do
+      before(:each) do
+        @invalid_feed_attributes = FactoryBot.attributes_for :feed
+        @invalid_feed_attributes[:url] = "http://rss.cnn.com/rss/edi"
+        post :create, params: { feed: @invalid_feed_attributes }, format: :json
+      end
+
+      it "renders an errors json" do
+        feed_response = json_response
+        expect(feed_response).to have_key(:errors)
+      end
+
+      it "renders an errors message" do
+        feed_response = json_response
+        expect(feed_response[:errors]).to include "your url rss is not valid"
+      end
+
+      it { should respond_with :bad_request }
+    end
+
   end
   describe "GET #show" do
     before(:each) do
@@ -70,6 +91,27 @@ RSpec.describe FeedsController, type: :controller do
       @feed = FactoryBot.create :feed
       @feed_attributes = FactoryBot.attributes_for :feed
       post :create, params: { feed: @feed_attributes }, format: :json
+    end
+
+    it "deletes all articles if the feed does not have any user" do
+      @article = FactoryBot.create(:article, feed_id: @feed.id)
+      @feed.articles << @article
+      delete :destroy, params: { id: @feed.id }, format: :json
+      feed_response = json_response
+      expect(feed_response[:articles_deleted].length).to eql 1
+      should respond_with :no_content
+    end
+
+    it "deletes feed subscription to the current user" do
+      @another_user = FactoryBot.create :user
+      api_authorization_header(@another_user.auth_token)
+      post :create, params: { feed: @feed_attributes }, format: :json
+      @article = FactoryBot.create(:article, feed_id: @feed.id)
+      @feed.articles << @article
+      delete :destroy, params: { id: @feed.id }, format: :json
+      feed_response = json_response
+      expect(feed_response[:articles_deleted].length).to eql 0
+      should respond_with :ok
     end
 
     it "remove user-feed asociation" do

@@ -41,7 +41,7 @@ RSpec.describe SessionsController, type: :controller do
 
     before(:each) do
       @user = FactoryBot.create :user
-      sign_in @user
+      api_authorization_header(@user.auth_token)
       delete :destroy, params: { id: @user.auth_token }
     end
 
