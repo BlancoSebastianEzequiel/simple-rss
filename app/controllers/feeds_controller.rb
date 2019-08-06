@@ -37,10 +37,7 @@ class FeedsController < ApplicationController
     current_user.feeds.delete(feed)
     articles_deleted = []
     if feed.users.length == 0
-      feed.articles.each do |article|
-        articles_deleted << article
-        article.delete
-      end
+      articles_deleted = feed.articles.destroy_all
       feed.delete
       render json: { feed:  feed, articles_deleted: articles_deleted }, status: :no_content
     else
