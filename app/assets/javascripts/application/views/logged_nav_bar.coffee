@@ -2,9 +2,6 @@ class App.Views.LoggedNavBar extends App.View
 
   template: JST['application/templates/logged_nav_bar']
 
-  events:
-    'click #logout': 'logout'
-
   initialize: ->
     @feedsList = new App.Collections.Feeds
     @feedsView = new App.Views.Feeds(collection: @feedsList)
