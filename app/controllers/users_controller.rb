@@ -9,7 +9,7 @@ class UsersController < ApplicationController
   def create
     user = User.new(user_params)
     if user.save
-      render json: user, status: :created#, location: @user
+      render json: user, status: :created
     else
       render json: { errors: user.errors }, status: :unprocessable_entity
     end
@@ -17,7 +17,6 @@ class UsersController < ApplicationController
 
   def update
     user = current_user
-    # return render json: { errors: "no current user" }, status: 422 unless user
     if user.update(user_params)
       render json: user, status: :ok
     else
