@@ -22,12 +22,13 @@ class App.Views.Articles extends App.View
 
   save: ->
     article = new App.Models.Article
-    article.save("article", { feed_id: localStorage.getItem("current_feed_id") }, {
+    article.save("article",
+      { feed_id: localStorage.getItem("current_feed_id") }, {
       method: "patch"
       success: (model, response, options) =>
         alert("success")
         this.render()
-      error: (error) =>
+      error: (error) ->
         alert("ERROR: " + JSON.stringify(error))
     })
 
@@ -38,9 +39,9 @@ class App.Views.Articles extends App.View
   getArticles: ->
     @collection.fetch({
       data: { feed_id: localStorage.getItem("current_feed_id") }
-      success: (model, response, options) =>
+      success: (model, response, options) ->
         alert("success fetch")
-      error: (error) =>
+      error: (error) ->
         alert(JSON.stringify(error))
     })
 

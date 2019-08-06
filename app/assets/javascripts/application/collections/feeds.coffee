@@ -14,6 +14,6 @@ class App.Collections.Feeds extends App.Collection
       success: (model, response, options) =>
         alert("success")
         this.add(feed)
-      error: (model, error) =>
+      error: (model, error) ->
         alert(JSON.stringify(JSON.parse(error.responseText).errors))
     })
