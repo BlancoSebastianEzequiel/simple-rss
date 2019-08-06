@@ -10,6 +10,7 @@ RSpec.describe Article, type: :model do
   it { should respond_to(:title) }
   it { should be_valid }
   it { should belong_to :feed }
+  it { should have_many(:users).through(:articles_user) }
 
   describe "when url is not present" do
     before { @article.link = " " }

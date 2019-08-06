@@ -13,4 +13,8 @@ FactoryBot.define do
     link { "https://www.ruby-lang.org/en/news/2019/05/30/ruby-2-7-0-preview1-released/" }
     title { "Ruby 2.7.0-preview1 Released" }
   end
+  factory :articles_user do
+    user { nil }
+    article { nil }
+  end
 end
