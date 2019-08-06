@@ -11,8 +11,7 @@ class App.Collections.Feeds extends App.Collection
   save: ->
     url = $("#input_url").val()
     feed = new App.Models.Feed { url: url }
-    data = { url: url }
-    feed.save("feed", data, {
+    feed.save({ url: url }, {
       success: (model, response, options) =>
         alert("success")
         this.add(feed)
