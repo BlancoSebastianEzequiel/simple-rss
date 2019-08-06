@@ -9,16 +9,11 @@ class App.Views.LoggedNavBar extends App.View
     @feedsList = new App.Collections.Feeds
     @feedsView = new App.Views.Feeds(collection: @feedsList)
     @newFeedForm = new App.Views.NewFeedForm(collection: @feedsList)
+    @logout = new App.Views.Logout(model: new App.Models.Session)
 
   render: ->
     @$el.html(@template)
+    @$el.find("#nav_bar").html(@logout.render().el)
     @$el.find("#new_feed_form").html(@newFeedForm.render().el)
     @$el.find("#feed_list").html(@feedsView.render().el)
     this
-
-  logout: ->
-    @model.set("id", localStorage.getItem("auth_token"))
-    localStorage.setItem("auth_token", null)
-    @model.destroy()
-    alert("goodbye!")
-    Backbone.history.loadUrl("", { trigger: true })
