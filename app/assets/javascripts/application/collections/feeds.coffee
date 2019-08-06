@@ -9,8 +9,10 @@ class App.Collections.Feeds extends App.Collection
     model.trigger("hide")
 
   save: ->
-    feed = new App.Models.Feed { url: $("#input_url").val() }
-    feed.save({
+    url = $("#input_url").val()
+    feed = new App.Models.Feed { url: url }
+    data = { url: url }
+    feed.save("feed", data, {
       success: (model, response, options) =>
         alert("success")
         this.add(feed)
