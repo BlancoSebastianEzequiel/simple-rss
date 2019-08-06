@@ -26,7 +26,7 @@ class UsersController < ApplicationController
 
   def destroy
     current_user.destroy
-    head 	:no_content
+    head :no_content
   end
 
 
