@@ -23,6 +23,7 @@ class App.Views.Articles extends App.View
       method: "patch"
       success: (model, response, options) =>
         alert("success")
+        this.render()
       error: (error) =>
         alert("ERROR: " + JSON.stringify(error))
     })
@@ -30,13 +31,12 @@ class App.Views.Articles extends App.View
   refreshArticles: (event) ->
     event.preventDefault()
     this.save()
-    this.render()
 
   render: ->
     @collection.fetch({
       data: { feed_id: localStorage.getItem("current_feed_id") }
       success: (model, response, options) =>
-        alert("success")
+        alert("success fetch")
       error: (error) =>
         alert(JSON.stringify(error))
     })
