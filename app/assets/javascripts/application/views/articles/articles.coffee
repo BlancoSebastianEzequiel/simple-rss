@@ -27,7 +27,7 @@ class App.Views.Articles extends App.View
       method: "patch"
       success: (model, response, options) =>
         alert("success")
-        this.render()
+        this.getArticles()
       error: (error) ->
         alert("ERROR: " + JSON.stringify(error))
     })

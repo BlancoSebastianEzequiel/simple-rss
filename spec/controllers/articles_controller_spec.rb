@@ -20,6 +20,14 @@ RSpec.describe ArticlesController, type: :controller do
         expect(article_response.is_a? Array).to eql true
       end
 
+      it "add more articles but does not repeat" do
+        @article_attributes = { feed_id: @feed.id }
+        patch :update, params: { article: @article_attributes }, format: :json
+        article_response = json_response
+        dup = article_response.detect{ |article| article_response.count(article[:link]) > 1 }
+        expect(dup).to eql nil
+      end
+
       it { should respond_with :ok }
     end
 
