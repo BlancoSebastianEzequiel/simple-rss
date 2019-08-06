@@ -5,9 +5,9 @@ class ArticlesController < ApplicationController
 
   respond_to :json
   wrap_parameters :feed, include: %i[feed_id]
+  before_action :authenticate_with_token!, :only => [:show, :update]
 
   def update
-    return render json: { errors: "no token" }, status: :unauthorized unless current_user
     feed_id = article_params[:feed_id]
     feed = Feed.find_by(id: feed_id)
     return render json: { errors: "feed #{feed_id} does not exist" }, status: :unprocessable_entity unless feed
@@ -25,7 +25,6 @@ class ArticlesController < ApplicationController
   end
 
   def show
-    return render json: { errors: "no token" }, status: :unauthorized unless current_user
     feed = Feed.find_by(id: params[:feed_id])
     if feed.users.all? { |a_user| a_user.id != current_user.id }
       return render json: { errors: "you are not subscribed to this feed" }, status: :unprocessable_entity
