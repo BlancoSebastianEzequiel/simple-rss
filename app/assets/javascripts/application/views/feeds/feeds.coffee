@@ -1,17 +1,20 @@
 class App.Views.Feeds extends App.View
 
+  template: JST['application/templates/feeds_list']
+
   events:
     'click #new_feed_submit': 'saveFeed'
     'click .unsubscribe': 'unsubscribeFeed'
     'click .get_articles': 'getArticles'
 
   initialize: ->
+    @$el.html(@template)
     @collection.on('add', this.addOne, this)
     @collection.on('change', this.addAll, this)
 
   addOne: (feedItem) ->
     feedView = new App.Views.Feed(model: feedItem)
-    @$el.append(feedView.render().el)
+    @$el.find("#feeds_list").append(feedView.render().el)
 
   addAll: ->
     @collection.forEach(this.addOne, this)
