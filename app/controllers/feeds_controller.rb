@@ -27,6 +27,8 @@ class FeedsController < ApplicationController
     else
       render json: { errors: feed.errors }, status: :unprocessable_entity
     end
+  rescue CustomExceptions::BadRss => ex
+    render json: { errors: ex.message }, status: ex.status
   end
 
   def destroy
@@ -56,5 +58,7 @@ class FeedsController < ApplicationController
       parsed_params[:title] = feed.channel.title
       parsed_params
     end
+  rescue
+    raise CustomExceptions::BadRss.new("your url rss is not valid")
   end
 end
