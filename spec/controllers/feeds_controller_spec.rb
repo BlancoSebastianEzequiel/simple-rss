@@ -61,7 +61,7 @@ RSpec.describe FeedsController, type: :controller do
         expect(feed_response).to have_key(:errors)
       end
 
-      it "renders an errors messahe" do
+      it "renders an errors message" do
         feed_response = json_response
         expect(feed_response[:errors]).to include "your url rss is not valid"
       end
