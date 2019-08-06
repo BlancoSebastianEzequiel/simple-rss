@@ -8,6 +8,5 @@ class App.Views.Article extends App.View
   render: ->
     link = @model.get("link")
     title = @model.get("title")
-    id = @model.get("id")
     @$el.html(@template({ link, title }))
     this
