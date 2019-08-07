@@ -33,9 +33,17 @@ class FeedsController < ApplicationController
   def destroy
     feed = current_user.feeds.find(params[:id])
     current_user.feeds.delete(feed)
+    feed.users.delete(current_user)
     articles_deleted = []
+    feed.articles.each do |article|
+      current_user.articles.delete(article)
+      article.users.delete(current_user)
+      if article.users.length == 0
+        articles_deleted << article
+        article.delete
+      end
+    end
     if feed.users.length == 0
-      articles_deleted = feed.articles.destroy_all if feed.articles.users.length == 1
       feed.delete
       render json: { feed:  feed, articles_deleted: articles_deleted }, status: :no_content
     else

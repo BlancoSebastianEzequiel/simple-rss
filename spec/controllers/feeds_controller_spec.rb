@@ -93,9 +93,10 @@ RSpec.describe FeedsController, type: :controller do
       post :create, params: { feed: @feed_attributes }, format: :json
     end
 
-    it "deletes all articles if the feed does not have any user" do
+    it "deletes all articles because the feed does not have any user" do
       @article = FactoryBot.create(:article, feed_id: @feed.id)
       @feed.articles << @article
+      @user.articles << @article
       delete :destroy, params: { id: @feed.id }, format: :json
       feed_response = json_response
       expect(feed_response[:articles_deleted].length).to eql 1
@@ -108,6 +109,8 @@ RSpec.describe FeedsController, type: :controller do
       post :create, params: { feed: @feed_attributes }, format: :json
       @article = FactoryBot.create(:article, feed_id: @feed.id)
       @feed.articles << @article
+      @another_user.articles << @article
+      @user.articles << @article
       delete :destroy, params: { id: @feed.id }, format: :json
       feed_response = json_response
       expect(feed_response[:articles_deleted].length).to eql 0
