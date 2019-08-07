@@ -76,7 +76,7 @@ RSpec.describe ArticlesController, type: :controller do
     before(:each) do
       @article = FactoryBot.create(:article, feed_id: @feed.id)
       @article.users << @user
-      patch :read, params: { article_id: @article.id, read: true }
+      patch :read, params: { data: [article_id: @article.id, read: true] }, format: :json
     end
 
     it "reads an article" do
