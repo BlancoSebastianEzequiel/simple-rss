@@ -5,7 +5,7 @@ class ArticlesController < ApplicationController
 
   respond_to :json
   wrap_parameters :feed, include: %i[feed_id]
-  before_action :authenticate_with_token!, :only => [:show, :update]
+  before_action :authenticate_with_token!, :only => [:show, :update, :read]
 
   def update
     feed_id = article_params[:feed_id]
@@ -42,18 +42,21 @@ class ArticlesController < ApplicationController
   end
 
   def read
-    data = params[:data]
-    data.each do |article_data|
-      article = Article.find_by(id: article_data[:article_id])
-      article_user_rel = ArticlesUser.where(article: article, user: current_user)
-      unless article_user_rel.update_all(:read => article_data[:read])
-        render json: { errors: article_user_rel.errors }, status: :unprocessable_entity
-      end
+    filtered_params = read_params
+    article = Article.find_by(id: filtered_params[:article_id])
+    article_user_rel = ArticlesUser.where(article: article, user: current_user)
+    if article_user_rel.update_all(:read => filtered_params[:read])
+      render json: { article: article, read: article_user_rel[0][:read] }, status: :ok
+    else
+      render json: { errors: article_user_rel.errors }, status: :unprocessable_entity
     end
-    head :ok
   end
 
   private
+
+  def read_params
+    params.permit(:article_id, :read)
+  end
 
   def article_params
     required_params = params.require(:article).permit(:feed_id)
