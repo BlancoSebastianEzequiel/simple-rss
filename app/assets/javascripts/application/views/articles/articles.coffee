@@ -7,7 +7,6 @@ class App.Views.Articles extends App.View
 
   initialize: ->
     @collection.on('add', this.addOne, this)
-    #@collection.on('change', this.addAll, this)
     @logout = new App.Views.Logout(model: new App.Models.Session)
     this.getArticles()
 
@@ -16,8 +15,8 @@ class App.Views.Articles extends App.View
     @$el.find("#article_list").append(articleView.render().el)
 
   addAll: ->
-    @numberOfArticles = @collection.models.length
-    @$el.html(@template({ @numberOfArticles }))
+    numberOfArticles = @collection.models.length
+    @$el.html(@template({ numberOfArticles }))
     @$el.find("#nav_bar").html(@logout.render().el)
     @collection.forEach(this.addOne, this)
 
