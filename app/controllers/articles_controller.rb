@@ -31,7 +31,12 @@ class ArticlesController < ApplicationController
       return render json: { errors: "you are not subscribed to this feed" }, status: :unprocessable_entity
     end
     articles = feed.articles.includes(:users).where(users: { id: current_user} ).references(:users)
-    render json: articles.sort_by(&:updated_at).reverse.take(10), status: :ok
+    articles = articles.sort_by(&:updated_at).reverse.take(10)
+    mapped_articles = []
+    articles.each do |article|
+      mapped_articles << { article: article, read: ArticlesUser.where(article: article, user: current_user)[0][:read] }
+    end
+    render json: mapped_articles, status: :ok
   rescue StandardError => ex
     render json: { errors: ex.message }, status: :internal_server_error
   end

@@ -80,8 +80,9 @@ RSpec.describe ArticlesController, type: :controller do
     end
 
     it "reads an article" do
+      get :show, params: { feed_id: @feed.id }, format: :json
       article_response = JSON.parse(response.body)
-      expect(article_response["read"]).to eql true
+      expect(article_response[0]["read"]).to eql true
     end
 
     it { should respond_with :ok }
