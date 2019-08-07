@@ -10,6 +10,7 @@ RSpec.describe ArticlesUser, type: :model do
   subject { @articles_users }
   it { should respond_to(:user) }
   it { should respond_to(:article) }
+  it { should respond_to(:read) }
   it { should be_valid }
   it { should belong_to :user }
   it { should belong_to :article }

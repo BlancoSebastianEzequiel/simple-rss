@@ -16,5 +16,6 @@ FactoryBot.define do
   factory :articles_user do
     user { nil }
     article { nil }
+    read { false }
   end
 end
