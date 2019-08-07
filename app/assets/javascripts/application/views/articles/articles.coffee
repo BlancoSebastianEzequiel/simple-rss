@@ -50,4 +50,3 @@ class App.Views.Articles extends App.View
       error: (error) ->
         alert(JSON.stringify(error))
     })
-    # .then(() => this.render())
