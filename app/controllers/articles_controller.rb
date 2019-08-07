@@ -36,6 +36,18 @@ class ArticlesController < ApplicationController
     render json: { errors: ex.message }, status: :internal_server_error
   end
 
+  def read
+    article_id = params[:article_id]
+    read = params[:read]
+    article = Article.find_by(id: article_id)
+    article_user_rel = ArticlesUser.where(article: article, user: current_user)
+    if article_user_rel.update_all(:read => read)
+      render json: { article: article, read: article_user_rel[0][:read] }, status: :ok
+    else
+      render json: { errors: article_user_rel.errors }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def article_params
