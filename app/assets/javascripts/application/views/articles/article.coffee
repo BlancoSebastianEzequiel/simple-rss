@@ -6,7 +6,7 @@ class App.Views.Article extends App.View
     @model.on("hide", this.remove, this)
 
   render: ->
-    link = @model.get("link")
-    title = @model.get("title")
+    link = @model.get("article").link
+    title = @model.get("article").title
     @$el.html(@template({ link, title }))
     this
