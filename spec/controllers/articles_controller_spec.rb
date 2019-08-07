@@ -28,6 +28,18 @@ RSpec.describe ArticlesController, type: :controller do
         expect(dup).to eql nil
       end
 
+      it "another user has the same or more articles if the user updated later" do
+        get :show, params: { feed_id: @feed.id }, format: :json
+        first_user_article_response = JSON.parse(response.body)
+        @another_user = FactoryBot.create :user
+        @feed.users << @another_user
+        api_authorization_header(@another_user.auth_token)
+        get :show, params: { feed_id: @feed.id }, format: :json
+        second_user_article_response = JSON.parse(response.body)
+        expect(second_user_article_response.length).to eql 0
+        expect(first_user_article_response.length > second_user_article_response.length).to eql true
+      end
+
       it { should respond_with :ok }
     end
 

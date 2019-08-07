@@ -14,6 +14,7 @@ class ArticlesController < ApplicationController
     articles = []
     get_articles(feed.url, feed.id).each do |article_data|
       article = Article.where(:link => article_data[:link]).first_or_create(article_data)
+      article.users << current_user unless article.users.include? current_user
       unless article.update(article_data)
         return render json: { errors: article.errors }, status: :unprocessable_entity
       end
@@ -29,7 +30,8 @@ class ArticlesController < ApplicationController
     if feed.users.all? { |a_user| a_user.id != current_user.id }
       return render json: { errors: "you are not subscribed to this feed" }, status: :unprocessable_entity
     end
-    respond_with feed.articles
+    articles = feed.articles.includes(:users).where(users: { id: current_user} ).references(:users)
+    render json: articles.sort_by(&:updated_at).reverse.take(10), status: :ok
   rescue StandardError => ex
     render json: { errors: ex.message }, status: :internal_server_error
   end

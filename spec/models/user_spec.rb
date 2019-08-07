@@ -1,5 +1,4 @@
 require 'rails_helper'
-require 'spec_helper'
 
 RSpec.describe User, type: :model do
   before { @user = FactoryBot.build(:user) }
@@ -11,6 +10,7 @@ RSpec.describe User, type: :model do
   it { should respond_to(:auth_token) }
   it { should validate_uniqueness_of(:auth_token) }
   it { should have_and_belong_to_many :feeds }
+  it { should have_many(:articles).through(:articles_user) }
 
   describe "when user name is not present" do
     before { @user.user_name = " " }

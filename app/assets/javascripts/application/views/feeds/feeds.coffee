@@ -23,7 +23,12 @@ class App.Views.Feeds extends App.View
     event.preventDefault()
     if window.confirm("Do you really unsubscribe?")
       feed = @collection.get(event.currentTarget.id)
-      feed.destroy()
+      feed.destroy({
+        success: (model, response, options) ->
+          alert("Deleted")
+        error: (error) ->
+          alert(JSON.stringify(JSON.parse(error.responseText).errors))
+      })
 
   getArticles: (event) ->
     event.preventDefault()
