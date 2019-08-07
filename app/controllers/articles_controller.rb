@@ -32,7 +32,7 @@ class ArticlesController < ApplicationController
     end
     articles = []
     feed.articles.each { |article| articles << article if article.users.include? current_user }
-    render json: articles, status: :ok
+    render json: articles.sort_by(&:updated_at).reverse.take(10), status: :ok
   rescue StandardError => ex
     render json: { errors: ex.message }, status: :internal_server_error
   end
