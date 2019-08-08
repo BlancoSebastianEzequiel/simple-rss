@@ -43,10 +43,9 @@ class ArticlesController < ApplicationController
 
   def read
     filtered_params = read_params
-    article = Article.find_by(id: filtered_params[:article_id])
-    article_user_rel = ArticlesUser.where(article: article, user: current_user)
-    if article_user_rel.update_all(:read => filtered_params[:read])
-      render json: { article: article, read: article_user_rel[0][:read] }, status: :ok
+    article_user_rel = ArticlesUser.where(article_id: filtered_params[:article_id], user: current_user).first
+    if article_user_rel.update(:read => filtered_params[:read])
+      render json: { article: article_user_rel.article, read: article_user_rel[:read] }, status: :ok
     else
       render json: { errors: article_user_rel.errors }, status: :unprocessable_entity
     end
