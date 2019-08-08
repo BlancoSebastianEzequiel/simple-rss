@@ -71,4 +71,21 @@ RSpec.describe ArticlesController, type: :controller do
 
     it { should respond_with :ok }
   end
+
+  describe "PATCH #read" do
+    before(:each) do
+      @article = FactoryBot.create(:article, feed_id: @feed.id)
+      @article.users << @user
+      patch :read, params: { article_id: @article.id, read: true }, format: :json
+    end
+
+    it "reads an article" do
+      get :show, params: { feed_id: @feed.id }, format: :json
+      article_response = json_response
+      expect(article_response.length).to eql 1
+      expect(article_response[0][:read]).to eql true
+    end
+
+    it { should respond_with :ok }
+  end
 end
