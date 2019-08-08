@@ -6,10 +6,12 @@ class App.Views.NewFeedForm extends App.View
     'click #new_feed_submit': 'saveFeed'
 
   render: ->
-    @$el.html(@template)
+    urlError = @collection.errors.url if @collection.errors
+    @$el.html(@template({ urlError }))
     this
 
   saveFeed: (event) ->
     event.preventDefault()
     @collection.save()
-    this.render()
+    .fail(() => this.render())
+    .then(() => this.render())
