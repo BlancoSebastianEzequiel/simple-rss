@@ -4,7 +4,7 @@
   * Install RVM following these instructions: `https://rvm.io/rvm/install`
   * Install nvm following these instructions: `https://github.com/nvm-sh/nvm#installation-and-update`
   * Install Node 8: `nvm install 8` 
-  * Install bundler: `gem install bundler -v {numero de version}r`
+  * Install bundler: `gem install bundler -v {numero de version}`
   
 * Versions used
    * Ruby: `2.6.3`
