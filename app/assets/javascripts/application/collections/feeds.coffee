@@ -3,6 +3,7 @@ class App.Collections.Feeds extends App.Collection
   url: "/feeds"
 
   initialize: ->
+    @errors = undefined
     this.on("remove", this.hideModel)
 
   hideModel: (model) ->
@@ -14,6 +15,6 @@ class App.Collections.Feeds extends App.Collection
       success: (model, response, options) =>
         alert("success")
         this.add(feed)
-      error: (model, error) ->
-        alert(JSON.stringify(JSON.parse(error.responseText).errors))
+      error: (model, error) =>
+        @errors = JSON.parse(error.responseText).errors
     })
