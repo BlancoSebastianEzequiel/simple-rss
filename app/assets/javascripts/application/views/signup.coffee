@@ -6,7 +6,11 @@ class App.Views.Signup extends App.View
     'click #signup_submit': 'signup'
 
   render: ->
-    @$el.html(@template)
+    errors = @model.get("errors")
+    userNameError = errors.user_name if errors
+    passwordError = errors.password if errors
+    passwordConfirmationError = errors.password_confirmation if errors
+    @$el.html(@template({ userNameError, passwordError, passwordConfirmationError }))
     this
 
   signup: =>
@@ -17,5 +21,6 @@ class App.Views.Signup extends App.View
     .success (model, response, options) ->
       alert("success signup")
       Backbone.history.loadUrl("login", { trigger: true })
-    .error (error) ->
-      alert(JSON.stringify(JSON.parse(error.responseText).errors))
+    .error (error) =>
+      @model.set(errors: JSON.parse(error.responseText).errors)
+      this.render()
