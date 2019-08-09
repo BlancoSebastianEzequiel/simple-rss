@@ -1,5 +1,6 @@
 class App.View extends Backbone.View
   validated: (button, valid) ->
+    return if not button
     if valid
       button.attr("disabled", false)
     else
