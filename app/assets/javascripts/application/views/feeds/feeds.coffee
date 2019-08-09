@@ -3,7 +3,6 @@ class App.Views.Feeds extends App.View
   template: JST['application/templates/feeds_list']
 
   events:
-    'click #new_feed_submit': 'saveFeed'
     'click .unsubscribe': 'unsubscribeFeed'
     'click .get_articles': 'getArticles'
 
