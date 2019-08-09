@@ -1,5 +1,5 @@
 class App.View extends Backbone.View
-  validated: (button, valid) ->
+  toggleEnabled: (button, valid) ->
     if valid
       button.attr("disabled", false)
     else
