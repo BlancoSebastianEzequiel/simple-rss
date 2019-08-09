@@ -3,6 +3,7 @@ class App.Collections.Feeds extends App.Collection
   url: "/feeds"
 
   initialize: ->
+    @buttons = {}
     @errors = undefined
     this.on("remove", this.hideModel)
 
@@ -18,3 +19,6 @@ class App.Collections.Feeds extends App.Collection
       error: (model, error) =>
         @errors = JSON.parse(error.responseText).errors
     })
+
+  setButton: (key, button) ->
+    @buttons[key] = button
