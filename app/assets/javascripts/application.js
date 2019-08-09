@@ -12,8 +12,13 @@
 //
 //= require jquery
 //= require jquery_ujs
+//= require materialize
 //= require turbolinks
 //= require underscore
 //= require backbone
 //= require pnotify
 //= require home
+
+$(document).on('turbolinks:load', function() {
+    $('.dropdown-trigger').dropdown();
+});
