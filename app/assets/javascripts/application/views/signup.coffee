@@ -26,7 +26,7 @@ class App.Views.Signup extends App.View
     @model.set(password_confirmation: $("#input_password_confirmation").val())
     @model.save()
     .success (model, response, options) =>
-      alert("success signup")
+      new PNotify(text: "welcome!", type: 'success').get()
       this.validated(@signupButton, true)
       this.autoLogin(@model.get("user_name"), @model.get("password"))
       Backbone.history.loadUrl("", { trigger: true })

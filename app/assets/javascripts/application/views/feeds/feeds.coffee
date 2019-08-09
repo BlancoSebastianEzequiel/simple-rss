@@ -29,11 +29,11 @@ class App.Views.Feeds extends App.View
       feed = @collection.get(id)
       feed.destroy({
         success: (model, response, options) =>
-          alert("Deleted")
+          new PNotify(text: "all articles deleted", type: 'success').get()
           this.validated(@unsubscribeButton, true)
           this.validated(@collection.buttons.subscribeButton, true)
         error: (error) ->
-          alert(JSON.stringify(JSON.parse(error.responseText).errors))
+          new PNotify(text: JSON.stringify(JSON.parse(error.responseText).errors), type: 'error').get()
       })
     else
       this.validated(@unsubscribeButton, true)

@@ -11,11 +11,11 @@ class App.Views.ReadButton extends App.View
   render: =>
     @read = @model.get("read")
     if (@read)
-      buttonText = "mark as unread"
+      @buttonText = "mark as unread"
     else
-      buttonText = "mark as read"
+      @buttonText = "mark as read"
     id = @model.get("article").id
-    @$el.html(@template({ id, buttonText }))
+    @$el.html(@template({ id, @buttonText }))
     @readButton = @$el.find("#read_button_#{id}")
     this.validated(@readButton, true)
     this
@@ -28,9 +28,9 @@ class App.Views.ReadButton extends App.View
       url: @model.urlRoot + '-read'
       method: "patch"
       success: (model, response, options) =>
-        alert("success read")
+        new PNotify(text: @buttonText, type: 'error').get()
       error: (error) ->
-        alert("ERROR: " + JSON.stringify(error))
+        new PNotify(text: JSON.stringify(error), type: 'error').get()
     })
     .then(() =>
       this.validated(@readButton, true)

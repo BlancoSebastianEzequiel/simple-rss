@@ -34,10 +34,10 @@ class App.Views.Articles extends App.View
       { feed_id: localStorage.getItem("current_feed_id") }, {
       method: "patch"
       success: (model, response, options) =>
-        alert("success")
+        new PNotify(text: "Now you have the latest articles!", type: 'success').get()
         this.getArticles().then(() => this.validated(@refreshButton, true))
       error: (error) ->
-        alert("ERROR: " + JSON.stringify(error))
+        new PNotify(text: JSON.stringify(error), type: 'error').get()
     })
 
   refreshArticles: (event) ->
@@ -49,7 +49,7 @@ class App.Views.Articles extends App.View
     @collection.fetch({
       data: { feed_id: localStorage.getItem("current_feed_id") }
       success: (model, response, options) =>
-        alert("success fetch")
+        new PNotify(text: "success fetch", type: 'success').get()
       error: (error) ->
-        alert(JSON.stringify(error))
+        new PNotify(text: JSON.stringify(error), type: 'error').get()
     })
