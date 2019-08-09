@@ -25,8 +25,7 @@ class App.Views.Feeds extends App.View
     this.toggleEnabled(@unsubscribeButton, false)
     this.toggleEnabled(@collection.buttons.subscribeButton, false)
     if window.confirm("Do you really unsubscribe?")
-      id = event.currentTarget.id.split("_")[1]
-      feed = @collection.get(id)
+      feed = @collection.get($(event.target).data('id'))
       feed.destroy({
         success: (model, response, options) =>
           alert("Deleted")
