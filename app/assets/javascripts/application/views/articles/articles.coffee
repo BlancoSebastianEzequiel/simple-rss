@@ -15,7 +15,7 @@ class App.Views.Articles extends App.View
       numberOfArticles = @collection.models.length
       @$el.html(@template({ numberOfArticles }))
       @refreshButton = $(".refresh_articles")
-      this.validated(@refreshButton, true)
+      this.toggleEnabled(@refreshButton, true)
       @$el.find("#nav_bar").html(@logout.render().el)
       this.addAll()
       this
@@ -35,14 +35,14 @@ class App.Views.Articles extends App.View
       method: "patch"
       success: (model, response, options) =>
         new PNotify(text: "Now you have the latest articles!", type: 'success').get()
-        this.getArticles().then(() => this.validated(@refreshButton, true))
+        this.getArticles().then(() => this.toggleEnabled(@refreshButton, true))
       error: (error) ->
         new PNotify(text: JSON.stringify(error), type: 'error').get()
     })
 
   refreshArticles: (event) ->
     event.preventDefault()
-    this.validated(@refreshButton, false)
+    this.toggleEnabled(@refreshButton, false)
     this.save()
 
   getArticles: ->

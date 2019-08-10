@@ -9,13 +9,18 @@ class App.Views.NewFeedForm extends App.View
     urlError = @collection.errors.url if @collection.errors
     @$el.html(@template({ urlError }))
     @subscribeButton = @$el.find("#new_feed_submit")
-    @collection.setButton("subscribeButton", @subscribeButton)
-    this.validated(@subscribeButton, true)
+    this.toggleEnabled(@subscribeButton, true)
     this
 
+  enableButton: =>
+    this.toggleEnabled(@subscribeButton, true)
+
+  disableButton: =>
+    this.toggleEnabled(@subscribeButton, false)
+
   saveFeed: (event) ->
-    this.validated(@subscribeButton, false)
     event.preventDefault()
+    this.toggleEnabled(@subscribeButton, false)
     @collection.save()
     .fail(() => this.render())
     .then(() => this.render())

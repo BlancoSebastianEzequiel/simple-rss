@@ -12,7 +12,7 @@ class App.Views.Signup extends App.View
     passwordConfirmationError = errors.password_confirmation if errors
     @$el.html(@template({ userNameError, passwordError, passwordConfirmationError }))
     @signupButton = @$el.find("#signup_submit")
-    this.validated(@signupButton, true)
+    this.toggleEnabled(@signupButton, true)
     this
 
   autoLogin: (userName, password)->
@@ -20,16 +20,14 @@ class App.Views.Signup extends App.View
     login.login()
 
   signup: =>
-    this.validated(@signupButton, false)
+    this.toggleEnabled(@signupButton, false)
     @model.set(user_name: $("#input_user_name").val())
     @model.set(password: $("#input_password").val())
     @model.set(password_confirmation: $("#input_password_confirmation").val())
     @model.save()
     .success (model, response, options) =>
-      new PNotify(text: "welcome!", type: 'success').get()
-      this.validated(@signupButton, true)
+      this.toggleEnabled(@signupButton, true)
       this.autoLogin(@model.get("user_name"), @model.get("password"))
-      Backbone.history.loadUrl("", { trigger: true })
     .error (error) =>
       @model.set(errors: JSON.parse(error.responseText).errors)
       this.render()
