@@ -29,3 +29,4 @@ class App.Views.Login extends App.View
     .error (error) =>
       alert(JSON.stringify(JSON.parse(error.responseText).errors))
       this.toggleEnabled(@loginButton, true)
+    .then(() => new PNotify(text: "welcome!", type: "success").get())
