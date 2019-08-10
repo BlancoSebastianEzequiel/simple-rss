@@ -17,11 +17,11 @@ class App.Views.ReadButton extends App.View
     id = @model.get("article").id
     @$el.html(@template({ id, buttonText }))
     @readButton = @$el.find("#read_button_#{id}")
-    this.validated(@readButton, true)
+    this.toggleEnabled(@readButton, true)
     this
 
   setRead: ->
-    this.validated(@readButton, false)
+    this.toggleEnabled(@readButton, false)
     @model.set(read: !@read)
     articleId = @model.get("article").id
     @model.save({ article_id: articleId,  read: @model.get("read") }, {
@@ -33,7 +33,7 @@ class App.Views.ReadButton extends App.View
         alert("ERROR: " + JSON.stringify(error))
     })
     .then(() =>
-      this.validated(@readButton, true)
+      this.toggleEnabled(@readButton, true)
       Backbone.history.loadUrl()
       this.render()
     )

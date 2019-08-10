@@ -7,6 +7,8 @@ class App.Views.LoggedNavBar extends App.View
     @feedsView = new App.Views.Feeds(collection: @feedsList)
     @newFeedForm = new App.Views.NewFeedForm(collection: @feedsList)
     @logout = new App.Views.Logout(model: new App.Models.Session)
+    this.listenTo(App.Events, "feed:delete:start", @newFeedForm.disableButton)
+    this.listenTo(App.Events, "feed:delete:end", @newFeedForm.enableButton)
 
   render: ->
     @$el.html(@template)
