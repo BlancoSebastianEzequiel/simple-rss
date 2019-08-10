@@ -23,20 +23,20 @@ class App.Views.Feeds extends App.View
   unsubscribeFeed: (event) ->
     event.preventDefault()
     this.toggleEnabled(@unsubscribeButton, false)
-    this.toggleEnabled(@collection.buttons.subscribeButton, false)
+    App.Events.trigger("feed:delete:start")
     if window.confirm("Do you really unsubscribe?")
       feed = @collection.get($(event.target).data('id'))
       feed.destroy({
         success: (model, response, options) =>
           alert("Deleted")
+          App.Events.trigger("feed:delete:end")
           this.toggleEnabled(@unsubscribeButton, true)
-          this.toggleEnabled(@collection.buttons.subscribeButton, true)
         error: (error) ->
           alert(JSON.stringify(JSON.parse(error.responseText).errors))
       })
     else
+      App.Events.trigger("feed:delete:end")
       this.toggleEnabled(@unsubscribeButton, true)
-      this.toggleEnabled(@collection.buttons.subscribeButton, true)
 
   getArticles: (event) ->
     event.preventDefault()
