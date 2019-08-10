@@ -19,7 +19,7 @@ class App.Views.Login extends App.View
     .success (model, response, options) =>
       this.toggleEnabled(@loginButton, true)
       localStorage.setItem("auth_token", model.auth_token)
-      Backbone.history.loadUrl("", { trigger: true })
+      Backbone.history.navigate("", { trigger: true })
     .error (error) =>
       alert(JSON.stringify(JSON.parse(error.responseText).errors))
       this.toggleEnabled(@loginButton, true)
