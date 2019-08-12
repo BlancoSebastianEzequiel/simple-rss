@@ -27,6 +27,6 @@ class App.Views.Login extends App.View
       localStorage.setItem("auth_token", model.auth_token)
       Backbone.history.navigate("", { trigger: true })
     .error (error) =>
-      alert(JSON.stringify(JSON.parse(error.responseText).errors))
+      new PNotify(text: JSON.stringify(JSON.parse(error.responseText).errors), type: "error").get()
       this.toggleEnabled(@loginButton, true)
     .then(() => new PNotify(text: "welcome!", type: "success").get())
