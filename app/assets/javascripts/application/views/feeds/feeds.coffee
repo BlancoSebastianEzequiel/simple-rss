@@ -7,26 +7,22 @@ class App.Views.Feeds extends App.View
     'click #get_articles': 'getArticles'
 
   initialize: ->
-    noFeedsMessage = ""
-    @$el.html(@template({noFeedsMessage}))
+    @$el.html(@template)
     @collection.on('add', this.addOne, this)
     @collection.on('reset', this.addAll, this)
 
-  addNoFeedsMessage: ->
-    if (@collection.models.length == 0)
-      @$el.find("#no_feed_message").text("you have no subscriptions")
-    else
-      @$el.find("#no_feed_message").text("")
+  toggleNoFeedsMessage: ->
+    @$el.find("#no_feed_message").toggle(@collection.models.length == 0)
 
   addOne: (feedItem) ->
-    this.addNoFeedsMessage()
+    this.toggleNoFeedsMessage()
     feedView = new App.Views.Feed(model: feedItem)
     @$el.find("#feeds_list").append(feedView.render().el)
     @unsubscribeButton = @$el.find("#unsubscribe_#{feedItem.get("id")}")
     this.toggleEnabled(@unsubscribeButton, true)
 
   addAll: =>
-    this.addNoFeedsMessage()
+    this.toggleNoFeedsMessage()
     @collection.forEach(this.addOne, this)
 
   unsubscribeFeed: (event) ->
@@ -40,8 +36,7 @@ class App.Views.Feeds extends App.View
           new PNotify(text: "all articles deleted", type: 'success').get()
           App.Events.trigger("feed:delete:end")
           this.toggleEnabled(@unsubscribeButton, true)
-          this.addNoFeedsMessage()
-          #@collection.fetch({ reset: true })
+          this.toggleNoFeedsMessage()
         error: (error) ->
           new PNotify(text: JSON.stringify(JSON.parse(error.responseText).errors), type: 'error').get()
       })
