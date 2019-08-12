@@ -14,20 +14,29 @@ class App.Views.Feeds extends App.View
   addOne: (feedItem) ->
     feedView = new App.Views.Feed(model: feedItem)
     @$el.find("#feeds_list").append(feedView.render().el)
+    @unsubscribeButton = @$el.find("#unsubscribe_#{feedItem.get("id")}")
+    this.toggleEnabled(@unsubscribeButton, true)
 
   addAll: ->
     @collection.forEach(this.addOne, this)
 
   unsubscribeFeed: (event) ->
     event.preventDefault()
+    this.toggleEnabled(@unsubscribeButton, false)
+    App.Events.trigger("feed:delete:start")
     if window.confirm("Do you really unsubscribe?")
-      feed = @collection.get(event.currentTarget.id)
+      feed = @collection.get($(event.target).data('id'))
       feed.destroy({
-        success: (model, response, options) ->
+        success: (model, response, options) =>
           alert("Deleted")
+          App.Events.trigger("feed:delete:end")
+          this.toggleEnabled(@unsubscribeButton, true)
         error: (error) ->
           alert(JSON.stringify(JSON.parse(error.responseText).errors))
       })
+    else
+      App.Events.trigger("feed:delete:end")
+      this.toggleEnabled(@unsubscribeButton, true)
 
   getArticles: (event) ->
     event.preventDefault()

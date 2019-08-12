@@ -3,21 +3,25 @@ class App.Views.ReadButton extends App.View
   template: JST['application/templates/read_button']
 
   events:
-    'click #read_button': "setRead"
+    'click .read_button': "setRead"
 
   initialize: ->
     @model.on("hide", this.remove, this)
 
-  render: ->
+  render: =>
     @read = @model.get("read")
     if (@read)
       buttonText = "mark as unread"
     else
       buttonText = "mark as read"
-    @$el.html(@template({ buttonText }))
+    id = @model.get("article").id
+    @$el.html(@template({ id, buttonText }))
+    @readButton = @$el.find("#read_button_#{id}")
+    this.toggleEnabled(@readButton, true)
     this
 
   setRead: ->
+    this.toggleEnabled(@readButton, false)
     @model.set(read: !@read)
     articleId = @model.get("article").id
     @model.save({ article_id: articleId,  read: @model.get("read") }, {
@@ -29,6 +33,7 @@ class App.Views.ReadButton extends App.View
         alert("ERROR: " + JSON.stringify(error))
     })
     .then(() =>
+      this.toggleEnabled(@readButton, true)
       Backbone.history.loadUrl()
       this.render()
     )
