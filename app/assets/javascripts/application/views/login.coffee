@@ -4,6 +4,8 @@ class App.Views.Login extends App.View
 
   events:
     'click #login_submit': 'login'
+    "change #input_user_name": "setUsername",
+    "change #input_password": "setPassword"
 
   render: ->
     @$el.html(@template)
@@ -11,10 +13,14 @@ class App.Views.Login extends App.View
     this.toggleEnabled(@loginButton, true)
     this
 
+  setUsername: ->
+    @model.set(user_name: $("#input_user_name").val())
+
+  setPassword: ->
+    @model.set(password: $("#input_password").val())
+
   login: =>
     this.toggleEnabled(@loginButton, false)
-    @model.set(user_name: $("#input_user_name").val())
-    @model.set(password: $("#input_password").val())
     @model.save()
     .success (model, response, options) =>
       this.toggleEnabled(@loginButton, true)

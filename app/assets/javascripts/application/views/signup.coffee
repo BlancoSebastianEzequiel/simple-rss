@@ -15,6 +15,10 @@ class App.Views.Signup extends App.View
     this.toggleEnabled(@signupButton, true)
     this
 
+  autoLogin: (userName, password)->
+    login = new App.Views.Login(model: new App.Models.Session { user_name: userName, password: password })
+    login.login()
+
   signup: =>
     this.toggleEnabled(@signupButton, false)
     @model.set(user_name: $("#input_user_name").val())
@@ -24,7 +28,7 @@ class App.Views.Signup extends App.View
     .success (model, response, options) =>
       alert("success signup")
       this.toggleEnabled(@signupButton, true)
-      Backbone.history.navigate("login", { trigger: true })
+      this.autoLogin(@model.get("user_name"), @model.get("password"))
     .error (error) =>
       @model.set(errors: JSON.parse(error.responseText).errors)
       this.render()
