@@ -7,17 +7,26 @@ class App.Views.Feeds extends App.View
     'click #get_articles': 'getArticles'
 
   initialize: ->
-    @$el.html(@template)
+    noFeedsMessage = ""
+    @$el.html(@template({noFeedsMessage}))
     @collection.on('add', this.addOne, this)
-    @collection.on('change', this.addAll, this)
+    @collection.on('reset', this.addAll, this)
+
+  addNoFeedsMessage: ->
+    if (@collection.models.length == 0)
+      @$el.find("#no_feed_message").text("you have no subscriptions")
+    else
+      @$el.find("#no_feed_message").text("")
 
   addOne: (feedItem) ->
+    this.addNoFeedsMessage()
     feedView = new App.Views.Feed(model: feedItem)
     @$el.find("#feeds_list").append(feedView.render().el)
     @unsubscribeButton = @$el.find("#unsubscribe_#{feedItem.get("id")}")
     this.toggleEnabled(@unsubscribeButton, true)
 
-  addAll: ->
+  addAll: =>
+    this.addNoFeedsMessage()
     @collection.forEach(this.addOne, this)
 
   unsubscribeFeed: (event) ->
@@ -31,6 +40,7 @@ class App.Views.Feeds extends App.View
           new PNotify(text: "all articles deleted", type: 'success').get()
           App.Events.trigger("feed:delete:end")
           this.toggleEnabled(@unsubscribeButton, true)
+          @collection.fetch({ reset: true })
         error: (error) ->
           new PNotify(text: JSON.stringify(JSON.parse(error.responseText).errors), type: 'error').get()
       })
@@ -44,5 +54,5 @@ class App.Views.Feeds extends App.View
     Backbone.history.navigate("articles", { trigger: true })
 
   render: ->
-    @collection.fetch()
+    @collection.fetch({reset:true})
     this
