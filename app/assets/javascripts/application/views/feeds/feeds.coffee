@@ -28,11 +28,11 @@ class App.Views.Feeds extends App.View
       feed = @collection.get($(event.target).data('id'))
       feed.destroy({
         success: (model, response, options) =>
-          alert("Deleted")
+          new PNotify(text: "all articles deleted", type: 'success').get()
           App.Events.trigger("feed:delete:end")
           this.toggleEnabled(@unsubscribeButton, true)
         error: (error) ->
-          alert(JSON.stringify(JSON.parse(error.responseText).errors))
+          new PNotify(text: JSON.stringify(JSON.parse(error.responseText).errors), type: 'error').get()
       })
     else
       App.Events.trigger("feed:delete:end")

@@ -76,3 +76,7 @@ end
 gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "devise"
+
+# sweet-alert to show notification in the front-end
+gem 'pnotify-rails'
+

@@ -8,12 +8,15 @@ class App.Views.ReadButton extends App.View
   initialize: ->
     @model.on("hide", this.remove, this)
 
+  setButtonText: (read) ->
+    if (read)
+      return buttonText = "mark as unread"
+    else
+      return buttonText = "mark as read"
+
   render: =>
     @read = @model.get("read")
-    if (@read)
-      buttonText = "mark as unread"
-    else
-      buttonText = "mark as read"
+    buttonText = this.setButtonText(@read)
     id = @model.get("article").id
     @$el.html(@template({ id, buttonText }))
     @readButton = @$el.find("#read_button_#{id}")
@@ -27,10 +30,8 @@ class App.Views.ReadButton extends App.View
     @model.save({ article_id: articleId,  read: @model.get("read") }, {
       url: @model.urlRoot + '-read'
       method: "patch"
-      success: (model, response, options) =>
-        alert("success read")
       error: (error) ->
-        alert("ERROR: " + JSON.stringify(error))
+        new PNotify(text: JSON.stringify(error), type: 'error').get()
     })
     .then(() =>
       this.toggleEnabled(@readButton, true)
