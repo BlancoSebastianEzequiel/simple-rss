@@ -40,7 +40,8 @@ class App.Views.Feeds extends App.View
           new PNotify(text: "all articles deleted", type: 'success').get()
           App.Events.trigger("feed:delete:end")
           this.toggleEnabled(@unsubscribeButton, true)
-          @collection.fetch({ reset: true })
+          this.addNoFeedsMessage()
+          #@collection.fetch({ reset: true })
         error: (error) ->
           new PNotify(text: JSON.stringify(JSON.parse(error.responseText).errors), type: 'error').get()
       })
@@ -54,5 +55,5 @@ class App.Views.Feeds extends App.View
     Backbone.history.navigate("articles", { trigger: true })
 
   render: ->
-    @collection.fetch({reset:true})
+    @collection.fetch({ reset: true })
     this
