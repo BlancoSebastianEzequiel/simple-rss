@@ -80,3 +80,7 @@ gem "devise"
 # sweet-alert to show notification in the front-end
 gem 'pnotify-rails'
 
+# framework for styling
+gem 'materialize-sass', '~> 1.0.0'
+
+

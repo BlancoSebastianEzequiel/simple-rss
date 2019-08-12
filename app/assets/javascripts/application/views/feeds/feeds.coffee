@@ -3,8 +3,8 @@ class App.Views.Feeds extends App.View
   template: JST['application/templates/feeds_list']
 
   events:
-    'click .unsubscribe': 'unsubscribeFeed'
-    'click .get_articles': 'getArticles'
+    'click #unsubscribe': 'unsubscribeFeed'
+    'click #get_articles': 'getArticles'
 
   initialize: ->
     @$el.html(@template)
@@ -40,7 +40,7 @@ class App.Views.Feeds extends App.View
 
   getArticles: (event) ->
     event.preventDefault()
-    localStorage.setItem("current_feed_id", event.currentTarget.id)
+    localStorage.setItem("current_feed_id", $(event.target).data('id'))
     Backbone.history.navigate("articles", { trigger: true })
 
   render: ->

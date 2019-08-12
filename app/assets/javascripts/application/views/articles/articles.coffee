@@ -3,7 +3,7 @@ class App.Views.Articles extends App.View
   template: JST['application/templates/article_list']
 
   events:
-    'click .refresh_articles': "refreshArticles"
+    'click #refresh_articles': "refreshArticles"
 
   initialize: ->
     @collection.on('add', this.addOne, this)
@@ -14,7 +14,7 @@ class App.Views.Articles extends App.View
     .then(() =>
       numberOfArticles = @collection.models.length
       @$el.html(@template({ numberOfArticles }))
-      @refreshButton = $(".refresh_articles")
+      @refreshButton = $("#refresh_articles")
       this.toggleEnabled(@refreshButton, true)
       @$el.find("#nav_bar").html(@logout.render().el)
       this.addAll()

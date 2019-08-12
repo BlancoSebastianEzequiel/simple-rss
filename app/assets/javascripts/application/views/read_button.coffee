@@ -23,7 +23,8 @@ class App.Views.ReadButton extends App.View
     this.toggleEnabled(@readButton, true)
     this
 
-  setRead: ->
+  setRead: (event) ->
+    event.preventDefault()
     this.toggleEnabled(@readButton, false)
     @model.set(read: !@read)
     articleId = @model.get("article").id
