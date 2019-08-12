@@ -1,36 +1,24 @@
-<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <h4 class="modal-title" id="myModalLabel">Login</h4>
-            </div>
-            <div class="modal-body">
-
-                <form class="form-horizontal">
-                    <div class="form-group">
-                        <label for="input_user_name" class="col-sm-2 control-label">User name</label>
-                        <div class="col-sm-10">
-                            <input type="text" class="form-control" id="input_user_name" placeholder="user_name">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <label for="input_password" class="col-sm-2 control-label">Password</label>
-                        <div class="col-sm-10">
-                            <input type="password" class="form-control" id="input_password" placeholder="password">
-                        </div>
-                    </div>
-
-                    <div class="form-group">
-                        <div class="col-sm-offset-2 col-sm-10">
-                            <button id=login_submit type="submit" class="btn btn-default">Login</button>
-                        </div>
-                    </div>
-                </form>
-                <div id="link">
-                    <span>If you do not have an account, please signup </span><a href="#signup">here</a>
-                </div>
+<div class="row">
+    <form class="col s12">
+        <div class="row">
+            <div class="input-field col s6">
+                <input placeholder="user name" id="input_user_name" type="text" class="validate">
+                <label for="first_name">User name</label>
             </div>
         </div>
-    </div>
+        <div class="row">
+            <div class="input-field col s12">
+                <input id="input_password" type="password" class="validate">
+                <label for="password">Password</label>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col s12">
+                <button id=login_submit type="submit" class="btn btn-default">Login</button>
+            </div>
+        </div>
+        <div id="link">
+            <span>If you do not have an account, please signup </span><a href="#signup">here</a>
+        </div>
+    </form>
 </div>

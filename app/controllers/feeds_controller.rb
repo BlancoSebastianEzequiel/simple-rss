@@ -18,7 +18,7 @@ class FeedsController < ApplicationController
   def create
     feed = Feed.find_by(url: params[:feed][:url]) || Feed.new(feed_params)
     if feed.users.any? { |a_user| a_user.id == current_user.id }
-      return render json: { errors: "you are already subscribed to this feed" }, status: :unprocessable_entity
+      return render json: { errors: {url: "you are already subscribed to this feed" } }, status: :unprocessable_entity
     end
     feed.users << current_user
     if feed.save

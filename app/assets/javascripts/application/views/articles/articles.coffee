@@ -3,7 +3,7 @@ class App.Views.Articles extends App.View
   template: JST['application/templates/article_list']
 
   events:
-    'click .refresh_articles': "refreshArticles"
+    'click #refresh_articles': "refreshArticles"
 
   initialize: ->
     @collection.on('add', this.addOne, this)
@@ -14,6 +14,8 @@ class App.Views.Articles extends App.View
     .then(() =>
       numberOfArticles = @collection.models.length
       @$el.html(@template({ numberOfArticles }))
+      @refreshButton = $("#refresh_articles")
+      this.toggleEnabled(@refreshButton, true)
       @$el.find("#nav_bar").html(@logout.render().el)
       this.addAll()
       this
@@ -32,21 +34,22 @@ class App.Views.Articles extends App.View
       { feed_id: localStorage.getItem("current_feed_id") }, {
       method: "patch"
       success: (model, response, options) =>
-        alert("success")
-        this.getArticles()
+        new PNotify(text: "Now you have the latest articles!", type: 'success').get()
+        this.getArticles().then(() => this.toggleEnabled(@refreshButton, true))
       error: (error) ->
-        alert("ERROR: " + JSON.stringify(error))
+        new PNotify(text: JSON.stringify(error), type: 'error').get()
     })
 
   refreshArticles: (event) ->
     event.preventDefault()
+    this.toggleEnabled(@refreshButton, false)
     this.save()
 
   getArticles: ->
     @collection.fetch({
       data: { feed_id: localStorage.getItem("current_feed_id") }
       success: (model, response, options) =>
-        alert("success fetch")
+        new PNotify(text: "success fetch", type: 'success').get()
       error: (error) ->
-        alert(JSON.stringify(error))
+        new PNotify(text: JSON.stringify(error), type: 'error').get()
     })

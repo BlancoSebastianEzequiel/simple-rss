@@ -10,8 +10,15 @@
 // Read Sprockets README (https://github.com/rails/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require rails-ujs
 //= require jquery
-//= require jquery_ujs
+//= require materialize
+//= require turbolinks
 //= require underscore
 //= require backbone
+//= require pnotify
 //= require home
+
+$(document).on('turbolinks:load', function() {
+    $('.dropdown-trigger').dropdown();
+});

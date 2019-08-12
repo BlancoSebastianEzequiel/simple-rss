@@ -24,6 +24,7 @@
 #= require_tree ./views
 
 @App =
+  Events: _({}).extend(Backbone.Events)
   Sessions: {}
   Cache: {}
   Mixins: {}

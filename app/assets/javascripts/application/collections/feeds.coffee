@@ -3,6 +3,7 @@ class App.Collections.Feeds extends App.Collection
   url: "/feeds"
 
   initialize: ->
+    @buttons = {}
     @errors = undefined
     this.on("remove", this.hideModel)
 
@@ -13,8 +14,11 @@ class App.Collections.Feeds extends App.Collection
     feed = new App.Models.Feed
     feed.save({ url: $("#input_url").val() }, {
       success: (model, response, options) =>
-        alert("success")
+        new PNotify(text: "you are subscribed!", type: 'success').get()
         this.add(feed)
       error: (model, error) =>
         @errors = JSON.parse(error.responseText).errors
     })
+
+  setButton: (key, button) ->
+    @buttons[key] = button

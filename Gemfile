@@ -77,4 +77,11 @@ gem 'tzinfo-data', platforms: [:mingw, :mswin, :x64_mingw, :jruby]
 
 gem "devise"
 
+# use to have admin user for entities
 gem 'activeadmin'
+
+# pnotify to show notification in the front-end
+gem 'pnotify-rails'
+
+# framework for styling
+gem 'materialize-sass', '~> 1.0.0'
