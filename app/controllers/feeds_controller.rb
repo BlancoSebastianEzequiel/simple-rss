@@ -22,7 +22,7 @@ class FeedsController < ApplicationController
     end
     feed.users << current_user
     if feed.save
-      ArticlesController.new.create_articles(feed, current_user)
+      ArticleFetcher.fetch(feed, current_user)
       render json: feed, status: :created
     else
       render json: { errors: feed.errors }, status: :unprocessable_entity
