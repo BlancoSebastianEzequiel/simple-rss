@@ -2,9 +2,6 @@ class App.Views.Articles extends App.View
 
   template: JST['application/templates/article_list']
 
-  events:
-    'click #refresh_articles': "refreshArticles"
-
   initialize: ->
     @collection.on('add', this.addOne, this)
     @logout = new App.Views.Logout(model: new App.Models.Session)
@@ -14,8 +11,9 @@ class App.Views.Articles extends App.View
     .then(() =>
       numberOfArticles = @collection.models.length
       @$el.html(@template({ numberOfArticles }))
-      @refreshButton = $("#refresh_articles")
-      this.toggleEnabled(@refreshButton, true)
+      feedId = localStorage.getItem("current_feed_id")
+      refreshArticlesButton = new App.Views.RefreshArticles({ feed_id: feedId})
+      @$el.find("#refresh_articles_button").html(refreshArticlesButton.render().el)
       this.addAll()
     )
     this
@@ -26,23 +24,6 @@ class App.Views.Articles extends App.View
 
   addAll: ->
     @collection.forEach(this.addOne, this)
-
-  save: ->
-    article = new App.Models.Article
-    article.save("article",
-      { feed_id: localStorage.getItem("current_feed_id") }, {
-      method: "patch"
-      success: (model, response, options) =>
-        new PNotify(text: "Now you have the latest articles!", type: 'success').get()
-        this.getArticles().then(() => this.toggleEnabled(@refreshButton, true))
-      error: (error) ->
-        new PNotify(text: JSON.stringify(error), type: 'error').get()
-    })
-
-  refreshArticles: (event) ->
-    event.preventDefault()
-    this.toggleEnabled(@refreshButton, false)
-    this.save()
 
   getArticles: ->
     @collection.fetch({
