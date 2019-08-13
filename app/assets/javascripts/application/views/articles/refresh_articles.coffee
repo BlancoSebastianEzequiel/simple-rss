@@ -17,7 +17,7 @@ class App.Views.RefreshArticles extends App.View
   save: ->
     article = new App.Models.Article
     article.save("article",
-      { feed_id: localStorage.getItem("current_feed_id") }, {
+      { feed_id: @feedId }, {
         method: "patch"
         success: (model, response, options) =>
           new PNotify(text: "Now you have the latest articles!", type: 'success').get()
