@@ -7,22 +7,29 @@ class ArticlesController < ApplicationController
   wrap_parameters :feed, include: %i[feed_id]
   before_action :authenticate_with_token!, :only => [:show, :update, :read]
 
-  def update
-    feed_id = article_params[:feed_id]
-    feed = Feed.find_by(id: feed_id)
-    return render json: { errors: "feed #{feed_id} does not exist" }, status: :unprocessable_entity unless feed
+  def create_articles(feed, current_user)
     articles = []
     get_articles(feed.url, feed.id).each do |article_data|
       article = Article.where(:link => article_data[:link]).first_or_create(article_data)
       article.users << current_user unless article.users.include? current_user
       unless article.update(article_data)
-        return render json: { errors: article.errors }, status: :unprocessable_entity
+        raise StandardError.new(article.errors.as_json)
       end
       articles << article
     end
+    articles
+  end
+
+  def update
+    feed_id = article_params[:feed_id]
+    feed = Feed.find_by(id: feed_id)
+    return render json: { errors: "feed #{feed_id} does not exist" }, status: :unprocessable_entity unless feed
+    articles = create_articles(feed, current_user)
     render json: articles, status: :ok
   rescue CustomExceptions::BadParams => ex
     render json: { errors: ex.message }, status: ex.status
+  rescue StandardError => ex
+    render json: { errors: ex.message }, status: :unprocessable_entity
   end
 
   def show

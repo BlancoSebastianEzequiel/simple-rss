@@ -18,6 +18,7 @@ RSpec.describe ArticlesController, type: :controller do
       it "renders the json representation for the article record just created" do
         article_response = json_response
         expect(article_response.is_a? Array).to eql true
+        expect(article_response.length > 0).to eql true
       end
 
       it "add more articles but does not repeat" do
@@ -36,7 +37,7 @@ RSpec.describe ArticlesController, type: :controller do
         api_authorization_header(@another_user.auth_token)
         get :show, params: { feed_id: @feed.id }, format: :json
         second_user_article_response = JSON.parse(response.body)
-        expect(second_user_article_response.length).to eql 0
+        expect(second_user_article_response.length > 0).to eql true
         expect(first_user_article_response.length > second_user_article_response.length).to eql true
       end
 
@@ -67,6 +68,7 @@ RSpec.describe ArticlesController, type: :controller do
     it "returns the list of articles" do
       article_response = json_response
       expect(article_response.is_a? Array).to eql true
+      expect(article_response.length > 0).to eql true
     end
 
     it { should respond_with :ok }
