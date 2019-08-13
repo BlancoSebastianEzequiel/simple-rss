@@ -1,6 +1,6 @@
-class App.Views.Home extends App.View
+class App.Views.GuestNavBar extends App.View
 
-  template: JST['application/templates/welcome']
+  template: JST['application/templates/guest_nav_bar']
 
   events:
     'click #signup': 'go_to_signup_form'
@@ -11,7 +11,9 @@ class App.Views.Home extends App.View
     this
 
   go_to_signup_form: ->
-    Backbone.history.navigate("signup", { trigger: true })
+    signup = new App.Views.Signup(model: new App.Models.Signup)
+    @$el.find("#form").html(signup.render().el)
 
   go_to_login_form: ->
-    Backbone.history.navigate("login", { trigger: true })
+    login = new App.Views.Login(model: new App.Models.Session)
+    @$el.find("#form").html(login.render().el)
