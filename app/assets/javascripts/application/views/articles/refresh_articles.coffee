@@ -3,14 +3,14 @@ class App.Views.RefreshArticles extends App.View
   template: JST['application/templates/refresh_articles_button']
 
   events:
-    'click .refresh_articles': "refreshArticles"
+    'click .refreshArticles': "refreshArticles"
 
   initialize: (options) ->
     @feedId = options.feed_id
 
   render: ->
     @$el.html(@template({ @feedId }))
-    @refreshButton = $("#refresh_articles_#{@feedId}")
+    @refreshButton = @$el.find("#refresh_articles_#{@feedId}")
     this.toggleEnabled(@refreshButton, true)
     this
 
