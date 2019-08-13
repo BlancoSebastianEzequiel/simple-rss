@@ -14,3 +14,11 @@
  *= require pnotify
  *= require materialize
  */
+
+.helper-text-custom {
+    position: relative;
+    min-height: 18px;
+    display: block;
+    font-size: 12px;
+    color: rgb(255, 1, 0);
+}
