@@ -4,7 +4,6 @@ class App.Views.Articles extends App.View
 
   initialize: ->
     @collection.on('add', this.addOne, this)
-    @logout = new App.Views.Logout(model: new App.Models.Session)
 
   render: ->
     this.getArticles()
@@ -12,7 +11,7 @@ class App.Views.Articles extends App.View
       numberOfArticles = @collection.models.length
       @$el.html(@template({ numberOfArticles }))
       feedId = localStorage.getItem("current_feed_id")
-      refreshArticlesButton = new App.Views.RefreshArticles({ feed_id: feedId})
+      refreshArticlesButton = new App.Views.RefreshArticles({ feed_id: feedId })
       @$el.find("#refresh_articles_button").html(refreshArticlesButton.render().el)
       this.addAll()
     )
