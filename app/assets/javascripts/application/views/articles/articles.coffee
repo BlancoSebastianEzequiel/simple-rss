@@ -18,8 +18,8 @@ class App.Views.Articles extends App.View
       this.toggleEnabled(@refreshButton, true)
       @$el.find("#nav_bar").html(@logout.render().el)
       this.addAll()
-      this
     )
+    this
 
   addOne: (articleItem) ->
     articleView = new App.Views.Article(model: articleItem)
