@@ -2,30 +2,17 @@ class App.Routers.Home extends App.Router
 
   routes:
     "": "index"
-    "signup": "signup"
-    "login": "login"
     "articles": "articles"
 
   index: ->
     if localStorage.getItem("auth_token") == "null"
-      this.home()
+      this.guest()
     else
       this.logged()
 
 
-  home: ->
-    view = new App.Views.Home()
-    $('body').html(view.el)
-    view.render()
-
-  signup: ->
-    model = new App.Models.Signup
-    view = new App.Views.Signup(model: model)
-    $('body').html(view.el)
-    view.render()
-
-  login: ->
-    view = new App.Views.Login(model: new App.Models.Session)
+  guest: ->
+    view = new App.Views.GuestNavBar()
     $('body').html(view.el)
     view.render()
 
