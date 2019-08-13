@@ -25,7 +25,9 @@
 
 @App =
   Events: _({}).extend(Backbone.Events)
-  Sessions: {}
+  Sessions:
+    isLogged: ->
+      localStorage.getItem("auth_token") != "null"
   Cache: {}
   Mixins: {}
   Helpers: {}
