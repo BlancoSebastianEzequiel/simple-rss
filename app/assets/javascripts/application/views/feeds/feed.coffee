@@ -14,6 +14,8 @@ class App.Views.Feed extends App.View
     title = @model.get("title")
     id = @model.get("id")
     @$el.html(@template({ id, url, title }))
+    @unsubscribeButton = @$el.find("#unsubscribe")
+    this.toggleEnabled(@unsubscribeButton, true)
     refreshArticlesButton = new App.Views.RefreshArticles({ feed_id: id })
     @$el.find("#refresh_articles_button").html(refreshArticlesButton.render().el)
     this

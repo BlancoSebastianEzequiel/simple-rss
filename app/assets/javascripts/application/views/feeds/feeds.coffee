@@ -15,8 +15,6 @@ class App.Views.Feeds extends App.View
     this.toggleNoFeedsMessage()
     feedView = new App.Views.Feed(model: feedItem)
     @$el.find("#feeds_list").append(feedView.render().el)
-    @unsubscribeButton = @$el.find("#unsubscribe_#{feedItem.get("id")}")
-    this.toggleEnabled(@unsubscribeButton, true)
 
   addAll: =>
     this.toggleNoFeedsMessage()
