@@ -13,7 +13,6 @@
 //= require rails-ujs
 //= require jquery
 //= require materialize
-//= require turbolinks
 //= require underscore
 //= require backbone
 //= require pnotify

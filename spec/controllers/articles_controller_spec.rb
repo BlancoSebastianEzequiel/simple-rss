@@ -8,8 +8,15 @@ RSpec.describe ArticlesController, type: :controller do
     @feed.users << @user
   end
 
+  let(:sign_in_user) do
+    another_user = FactoryBot.create :user
+    @feed.users << another_user
+    api_authorization_header(another_user.auth_token)
+    another_user
+  end
+
   describe "PUT/PATCH #update" do
-    context "when is successfully created" do
+    context "when is successfully updated" do
       before(:each) do
         @article_attributes = { feed_id: @feed.id }
         patch :update, params: { article: @article_attributes }, format: :json
@@ -18,26 +25,13 @@ RSpec.describe ArticlesController, type: :controller do
       it "renders the json representation for the article record just created" do
         article_response = json_response
         expect(article_response.is_a? Array).to eql true
+        expect(article_response.length > 0).to eql true
       end
 
-      it "add more articles but does not repeat" do
-        @article_attributes = { feed_id: @feed.id }
-        patch :update, params: { article: @article_attributes }, format: :json
+      it "adds more articles if there are but does not repeat" do
         article_response = json_response
         dup = article_response.detect{ |article| article_response.count(article[:link]) > 1 }
         expect(dup).to eql nil
-      end
-
-      it "another user has the same or more articles if the user updated later" do
-        get :show, params: { feed_id: @feed.id }, format: :json
-        first_user_article_response = JSON.parse(response.body)
-        @another_user = FactoryBot.create :user
-        @feed.users << @another_user
-        api_authorization_header(@another_user.auth_token)
-        get :show, params: { feed_id: @feed.id }, format: :json
-        second_user_article_response = JSON.parse(response.body)
-        expect(second_user_article_response.length).to eql 0
-        expect(first_user_article_response.length > second_user_article_response.length).to eql true
       end
 
       it { should respond_with :ok }
@@ -60,13 +54,16 @@ RSpec.describe ArticlesController, type: :controller do
 
   describe "GET #show" do
     before(:each) do
-      FactoryBot.create(:article, feed_id: @feed.id)
+      @articles = FactoryBot.create_list(:article, 10, feed_id: @feed.id)
+      @articles.each {|article| article.users << @user}
+      @feed.articles << @articles
       get :show, params: { feed_id: @feed.id }, format: :json
     end
 
     it "returns the list of articles" do
       article_response = json_response
       expect(article_response.is_a? Array).to eql true
+      expect(article_response.length).to eql 10
     end
 
     it { should respond_with :ok }
