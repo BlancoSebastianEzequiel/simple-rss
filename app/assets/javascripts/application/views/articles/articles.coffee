@@ -16,7 +16,6 @@ class App.Views.Articles extends App.View
       @$el.html(@template({ numberOfArticles }))
       @refreshButton = $("#refresh_articles")
       this.toggleEnabled(@refreshButton, true)
-      @$el.find("#nav_bar").html(@logout.render().el)
       this.addAll()
     )
     this
