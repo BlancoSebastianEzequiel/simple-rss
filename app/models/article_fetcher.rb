@@ -37,8 +37,9 @@ class ArticleFetcher
     return item.enclosure.url unless item.enclosure.nil?
     if item.description.include?("src")
       doc = Nokogiri::HTML(item.description)
-      doc.xpath("//img")[0]['src']
+      return doc.xpath("//img")[0]['src']
     end
+    ""
   end
 
   def self.description(description)
