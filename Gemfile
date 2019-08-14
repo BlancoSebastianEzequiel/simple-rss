@@ -85,3 +85,6 @@ gem 'pnotify-rails'
 
 # framework for styling
 gem 'materialize-sass', '~> 1.0.0'
+
+# use for storing avatars
+gem 'carrierwave', '>= 2.0.0.rc', '< 3.0'
