@@ -14,15 +14,35 @@ class ArticleFetcher
   end
 
   private
-
+  
   def self.get_articles(url, feed_id)
     open(url) do |rss|
       feed = RSS::Parser.parse(rss)
       articles = []
       feed.items.each do |item|
-        articles << { feed_id: feed_id, link: item.link, title: item.title }
+        article = {
+            feed_id: feed_id,
+            link: item.link,
+            title: item.title,
+            description: description(item.description)
+        }
+        article[:avatar] = image_url(item)
+        articles << article
       end
       articles
     end
+  end
+
+  def self.image_url(item)
+    return item.enclosure.url unless item.enclosure.nil?
+    if item.description.include?("src")
+      doc = Nokogiri::HTML(item.description)
+      doc.xpath("//img")[0]['src']
+    end
+  end
+
+  def self.description(description)
+    return description unless description.include?("src")
+    Nokogiri::HTML(description).text
   end
 end

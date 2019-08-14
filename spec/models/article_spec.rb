@@ -8,6 +8,8 @@ RSpec.describe Article, type: :model do
   subject { @article }
   it { should respond_to(:link) }
   it { should respond_to(:title) }
+  it { should respond_to(:avatar) }
+  it { should respond_to(:description) }
   it { should be_valid }
   it { should belong_to :feed }
   it { should have_many(:users).through(:articles_user) }

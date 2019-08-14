@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_12_120853) do
+ActiveRecord::Schema.define(version: 2019_08_14_015618) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -44,6 +44,8 @@ ActiveRecord::Schema.define(version: 2019_08_12_120853) do
     t.integer "feed_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "avatar", default: "", null: false
+    t.text "description", default: "", null: false
     t.index ["link"], name: "index_articles_on_link", unique: true
   end
 
