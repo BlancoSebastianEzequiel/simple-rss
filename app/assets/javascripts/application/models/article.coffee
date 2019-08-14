@@ -5,3 +5,18 @@ class App.Models.Article extends App.Model
     title: ""
     avatar: "https://abeon-hosting.com/images/no-avatar-png-7.png"
     description: ""
+
+  getLink: ->
+    this.get("article").link
+
+  getTitle: ->
+    this.get("article").link
+
+  getDescription: ->
+    this.get("article").description
+
+  getAvatar: ->
+    this.get("article").avatar || this.get("avatar")
+
+  getReadValue: ->
+    this.get("read")
