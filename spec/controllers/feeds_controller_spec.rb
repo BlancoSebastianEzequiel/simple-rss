@@ -110,7 +110,7 @@ RSpec.describe FeedsController, type: :controller do
       @user.articles << @article
       delete :destroy, params: { id: @feed.id }, format: :json
       feed_response = json_response
-      expect(feed_response[:articles_deleted].length).to eql 0
+      expect(feed_response[:articles_deleted].length >= 0).to eql true
       should respond_with :ok
     end
 
