@@ -6,7 +6,6 @@ class App.Views.Article extends App.View
 
   initialize: ->
     @model.on("hide", this.remove, this)
-    @readButton = new App.Views.ReadButton(model: @model)
 
   render: ->
     link = @model.getLink()
@@ -15,5 +14,7 @@ class App.Views.Article extends App.View
     imageURL = @model.getAvatar()
     description = @model.getDescription()
     @$el.html(@template({ link, title, read, imageURL, description }))
-    @$el.find("#read_button").html(@readButton.render().el)
+    readButton = new App.Views.ReadButton(model: @model)
+    this.listenTo(readButton, "read:button:marked", this.render)
+    @$el.find("#read_button").html(readButton.render().el)
     this

@@ -4,7 +4,7 @@ class App.Views.Articles extends App.View
 
   initialize: ->
     @collection.on('add', this.addOne, this)
-    @numberOfArticles = @collection.models.length
+    @collection.on('reset', this.addAll, this)
 
   render: ->
     this.getArticles()
