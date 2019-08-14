@@ -20,13 +20,14 @@ class ArticleFetcher
       feed = RSS::Parser.parse(rss)
       articles = []
       feed.items.each do |item|
-        articles << {
+        article = {
             feed_id: feed_id,
             link: item.link,
             title: item.title,
-            description: item.description,
-            avatar: item.enclosure.url
+            description: item.description
         }
+        article[:avatar] = item.enclosure.url unless item.enclosure.nil?
+        articles << article
       end
       articles
     end
