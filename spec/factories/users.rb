@@ -12,6 +12,8 @@ FactoryBot.define do
     feed_id { 0 }
     link { FFaker::Internet.http_url }
     title { "Ruby 2.7.0-preview1 Released" }
+    avatar { FFaker::Avatar.image }
+    description { FFaker::Lorem.paragraphs }
   end
   factory :articles_user do
     user { nil }
