@@ -44,8 +44,8 @@ ActiveRecord::Schema.define(version: 2019_08_14_015618) do
     t.integer "feed_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "avatar"
-    t.text "description"
+    t.string "avatar", default: "", null: false
+    t.text "description", default: "", null: false
     t.index ["link"], name: "index_articles_on_link", unique: true
   end
 
