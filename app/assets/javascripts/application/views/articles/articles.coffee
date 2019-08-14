@@ -4,6 +4,7 @@ class App.Views.Articles extends App.View
 
   initialize: ->
     @collection.on('add', this.addOne, this)
+    @collection.on('reset', this.addAll, this)
 
   render: ->
     this.getArticles()
