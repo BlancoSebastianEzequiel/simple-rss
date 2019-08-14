@@ -20,3 +20,6 @@ class App.Models.Article extends App.Model
 
   getReadValue: ->
     this.get("read")
+
+  getId: ->
+    this.get("article").id
