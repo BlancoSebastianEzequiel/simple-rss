@@ -40,5 +40,5 @@ class App.Views.Feed extends App.View
 
   getArticles: (event) ->
     event.preventDefault()
-    localStorage.setItem("current_feed_id", $(event.target).data('id'))
+    localStorage.setItem("current_feed_id", @model.get("id"))
     Backbone.history.navigate("articles", { trigger: true })
