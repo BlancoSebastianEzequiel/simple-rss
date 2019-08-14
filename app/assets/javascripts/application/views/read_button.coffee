@@ -15,9 +15,9 @@ class App.Views.ReadButton extends App.View
       return buttonText = "mark as read"
 
   render: =>
-    @read = @model.get("read")
+    @read = @model.getReadValue()
     buttonText = this.setButtonText(@read)
-    id = @model.get("article").id
+    id = @model.getId()
     @$el.html(@template({ id, buttonText }))
     @readButton = @$el.find("#read_button_#{id}")
     this.toggleEnabled(@readButton, true)
@@ -27,15 +27,14 @@ class App.Views.ReadButton extends App.View
     event.preventDefault()
     this.toggleEnabled(@readButton, false)
     @model.set(read: !@read)
-    articleId = @model.get("article").id
+    articleId = @model.getId()
     @model.save({ article_id: articleId,  read: @model.get("read") }, {
       url: @model.urlRoot + '-read'
       method: "patch"
+      success: (model, response, options) =>
+        this.toggleEnabled(@readButton, true)
+        this.render()
+        this.trigger("read:button:marked")
       error: (error) ->
         new PNotify(text: JSON.stringify(error), type: 'error').get()
     })
-    .then(() =>
-      this.toggleEnabled(@readButton, true)
-      Backbone.history.loadUrl()
-      this.render()
-    )

@@ -10,7 +10,7 @@ class App.Models.Article extends App.Model
     this.get("article").link
 
   getTitle: ->
-    this.get("article").link
+    this.get("article").title
 
   getDescription: ->
     this.get("article").description
@@ -20,3 +20,6 @@ class App.Models.Article extends App.Model
 
   getReadValue: ->
     this.get("read")
+
+  getId: ->
+    this.get("article").id
