@@ -22,7 +22,7 @@ class App.Views.RefreshArticles extends App.View
         success: (model, response, options) =>
           new PNotify(text: "Now you have the latest articles!", type: 'success').get()
           this.toggleEnabled(@refreshButton, true)
-          App.Events.trigger("articles:refresh")
+          this.trigger("articles:refresh")
         error: (error) =>
           this.toggleEnabled(@refreshButton, true)
           new PNotify(text: "refresh error: " + JSON.stringify(error), type: 'error').get()

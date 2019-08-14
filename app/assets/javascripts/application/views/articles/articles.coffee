@@ -5,7 +5,6 @@ class App.Views.Articles extends App.View
   initialize: ->
     @collection.on('add', this.addOne, this)
     @numberOfArticles = @collection.models.length
-    this.listenTo(App.Events, "articles:refresh", this.render)
 
   render: ->
     this.getArticles()
@@ -13,6 +12,7 @@ class App.Views.Articles extends App.View
       @$el.html(@template({ @numberOfArticles }))
       feedId = localStorage.getItem("current_feed_id")
       refreshArticlesButton = new App.Views.RefreshArticles({ feed_id: feedId })
+      this.listenTo(refreshArticlesButton, "articles:refresh", this.render)
       @$el.find("#refresh_articles_button").html(refreshArticlesButton.render().el)
       this.addAll()
     )

@@ -8,7 +8,6 @@ class App.Views.Feed extends App.View
 
   initialize: ->
     @model.on("hide", this.remove, this)
-    this.listenTo(App.Events, "articles:refresh", null)
 
   render: ->
     url = @model.get("url")
