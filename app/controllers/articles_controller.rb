@@ -30,9 +30,9 @@ class ArticlesController < ApplicationController
     mapped_articles = []
     articles.each do |article|
       read = ArticlesUser.where(article: article, user: current_user).first[:read]
-      mapped_articles << { article: article, read: read }
+      mapped_articles << { article: article, read: read, number_of_articles: number_of_articles }
     end
-    render json: { number_of_articles: number_of_articles, articles: mapped_articles }, status: :ok
+    render json: mapped_articles, status: :ok
   rescue StandardError => ex
     render json: { errors: ex.message }, status: :internal_server_error
   end

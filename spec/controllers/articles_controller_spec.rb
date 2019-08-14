@@ -62,8 +62,8 @@ RSpec.describe ArticlesController, type: :controller do
 
     it "returns the list of articles" do
       article_response = json_response
-      expect(article_response[:articles].is_a? Array).to eql true
-      expect(article_response[:articles].length).to eql 10
+      expect(article_response.is_a? Array).to eql true
+      expect(article_response.length).to eql 10
     end
 
     it { should respond_with :ok }
@@ -79,8 +79,8 @@ RSpec.describe ArticlesController, type: :controller do
     it "reads an article" do
       get :show, params: { feed_id: @feed.id }, format: :json
       article_response = json_response
-      expect(article_response[:articles].length).to eql 1
-      expect(article_response[:articles][0][:read]).to eql true
+      expect(article_response.length).to eql 1
+      expect(article_response[0][:read]).to eql true
     end
 
     it { should respond_with :ok }
