@@ -25,4 +25,7 @@ FactoryBot.define do
     password { "12345678" }
     password_confirmation { "12345678" }
   end
+  factory :folder do
+    name { FFaker::Internet.user_name }
+  end
 end
