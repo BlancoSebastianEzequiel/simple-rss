@@ -3,7 +3,7 @@ class App.Views.Feed extends App.View
   template: JST['application/templates/feed']
 
   events:
-    'click #unsubscribe': 'unsubscribeFeed'
+    'click #unsubscribe': 'confirmUnsubscribeFeed'
     'click #get_articles': 'getArticles'
 
   initialize: ->
@@ -20,23 +20,29 @@ class App.Views.Feed extends App.View
     @$el.find("#refresh_articles_button").html(refreshArticlesButton.render().el)
     this
 
-  unsubscribeFeed: (event) ->
+  unsubscribeFeed: ->
+    @model.destroy({
+      success: (model, response, options) =>
+        new PNotify(text: "all articles deleted", type: 'success').get()
+        App.Events.trigger("feed:delete:end")
+        this.toggleEnabled(@unsubscribeButton, true)
+        App.Events.trigger("feed:empty:message")
+      error: (error) ->
+        new PNotify(text: JSON.stringify(JSON.parse(error.responseText).errors), type: 'error').get()
+    })
+
+  reestablishButtons: ->
+    App.Events.trigger("feed:delete:end")
+    this.toggleEnabled(@unsubscribeButton, true)
+
+  confirmUnsubscribeFeed: (event) ->
     event.preventDefault()
     this.toggleEnabled(@unsubscribeButton, false)
     App.Events.trigger("feed:delete:start")
-    if window.confirm("Do you really unsubscribe?")
-      @model.destroy({
-        success: (model, response, options) =>
-          new PNotify(text: "all articles deleted", type: 'success').get()
-          App.Events.trigger("feed:delete:end")
-          this.toggleEnabled(@unsubscribeButton, true)
-          App.Events.trigger("feed:empty:message")
-        error: (error) ->
-          new PNotify(text: JSON.stringify(JSON.parse(error.responseText).errors), type: 'error').get()
-      })
-    else
-      App.Events.trigger("feed:delete:end")
-      this.toggleEnabled(@unsubscribeButton, true)
+    unsubscribeConfirmation = new App.Views.UnsubscribeConfirmation
+    @$el.find("#confirmation").html(unsubscribeConfirmation.render().el)
+    this.listenTo(unsubscribeConfirmation, "confirm:unsubscribe", this.unsubscribeFeed)
+    this.listenTo(unsubscribeConfirmation, "cancel:unsubscribe", this.reestablishButtons)
 
   getArticles: (event) ->
     event.preventDefault()
