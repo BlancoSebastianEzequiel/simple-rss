@@ -13,9 +13,15 @@ namespace :opml do
     outlines = OpmlParser.import(content)
     users_names.each do |user_name|
       user = User.find_by(user_name: user_name)
+      if user.nil?
+        puts "user #{user_name} does not exist"
+        file.close
+        break
+      end
       outlines.each do |feed|
-        params = { feed: { url: feed.attributes[:htmlUrl.to_sym] } }
-        res = FeedFactory.create(user, params)
+        next unless feed.attributes.include?(:xmlUrl)
+        puts "params: #{feed.attributes[:xmlUrl.to_sym]}"
+        res = FeedFactory.create(user, feed.attributes[:xmlUrl.to_sym])
         if res[:status] == :created
           puts "#{res[:json]}"
         else
