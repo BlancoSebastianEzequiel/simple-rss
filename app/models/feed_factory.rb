@@ -16,6 +16,9 @@ class FeedFactory
     end
   rescue CustomExceptions::BadRss => ex
     { json: { errors: { url: ex.message } }, status: ex.status }
+  rescue CustomExceptions::BadRssParse => ex
+    Feed.find_by(url: url).delete
+    { json: { errors: { url: ex.message } }, status: ex.status }
   end
 
   def self.feed_params(url)
