@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :sessions, :only => [:create, :destroy]
   resources :feeds, :only => [:show, :create, :destroy]
   resources :articles, :only => [:show, :update, :read]
-  resources :folders
+  resources :folders, :only => [:create]
   post "/signup" => 'users#create'
   post "/sessions" => 'sessions#create'
   delete "/sessions" => 'sessions#destroy'
