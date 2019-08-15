@@ -9,7 +9,8 @@ class App.Views.Articles extends App.View
   render: ->
     this.getArticles()
     .then(() =>
-      @$el.html(@template({ @numberOfArticles }))
+      feedTitle = localStorage.getItem("current_feed_title")
+      @$el.html(@template({ @numberOfArticles, feedTitle }))
       feedId = localStorage.getItem("current_feed_id")
       refreshArticlesButton = new App.Views.RefreshArticles({ feed_id: feedId })
       this.listenTo(refreshArticlesButton, "articles:refresh", this.render)
