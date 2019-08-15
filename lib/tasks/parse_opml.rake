@@ -2,6 +2,7 @@ namespace :opml do
   desc "This task does nothing"
   task :parse, [:file, :users] => :environment do |task, args|
     require 'opml-parser'
+    require 'colorize'
     include OpmlParser
 
     # rails "opml:parse[hola, juan seba]"
@@ -18,17 +19,17 @@ namespace :opml do
         file.close
         break
       end
+      puts "-----------------Processing user: #{user_name}-----------------"
       outlines.each do |feed|
         next unless feed.attributes.include?(:xmlUrl)
         url = feed.attributes[:xmlUrl.to_sym]
-        puts "url feed Processing...: #{url}"
+        print "processing feed #{url} =>  "
         res = FeedFactory.create(user, url)
         if res[:status] == :created
-          puts {res[:json]}
+          puts "#{res[:json]}".blue
         else
-          puts res[:json][:errors][:url]
+          puts "#{res[:json][:errors][:url]}".red
         end
-        puts "finish processing feed #{url}"
       end
     end
     file.close
