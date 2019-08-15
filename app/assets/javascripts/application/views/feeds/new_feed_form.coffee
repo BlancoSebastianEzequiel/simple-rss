@@ -18,9 +18,17 @@ class App.Views.NewFeedForm extends App.View
   disableButton: =>
     this.toggleEnabled(@subscribeButton, false)
 
+  setErrors: ->
+    if @collection.errors
+      urlError = @collection.errors.url
+      @$el.find("#url_error").text(urlError)
+
   saveFeed: (event) ->
     event.preventDefault()
     this.toggleEnabled(@subscribeButton, false)
     @collection.save()
-    .fail(() => this.render())
+    .fail(() =>
+      this.setErrors()
+      this.toggleEnabled(@subscribeButton, true)
+    )
     .then(() => this.render())

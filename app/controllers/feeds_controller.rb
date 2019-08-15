@@ -18,7 +18,7 @@ class FeedsController < ApplicationController
   def create
     feed = Feed.find_by(url: params[:feed][:url]) || Feed.new(feed_params)
     if feed.users.any? { |a_user| a_user.id == current_user.id }
-      return render json: { errors: {url: "you are already subscribed to this feed" } }, status: :unprocessable_entity
+      return render json: { errors: { url: "you are already subscribed to this feed" } }, status: :unprocessable_entity
     end
     feed.users << current_user
     if feed.save
@@ -28,7 +28,7 @@ class FeedsController < ApplicationController
       render json: { errors: feed.errors }, status: :unprocessable_entity
     end
   rescue CustomExceptions::BadRss => ex
-    render json: { errors: ex.message }, status: ex.status
+    render json: { errors: { url: ex.message } }, status: ex.status
   end
 
   def destroy
