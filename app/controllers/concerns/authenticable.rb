@@ -30,4 +30,12 @@ module CustomExceptions
       super(msg)
     end
   end
+
+  class BadRssParse < StandardError
+    attr_reader :status
+    def initialize(msg="My default message")
+      @status = :unprocessable_entity
+      super(msg)
+    end
+  end
 end
