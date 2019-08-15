@@ -19,6 +19,16 @@ class App.Views.Signup extends App.View
     login = new App.Views.Login(model: new App.Models.Session { user_name: userName, password: password })
     login.login()
 
+  setErrors: ->
+    errors = @model.get("errors")
+    if errors
+      userNameError = errors.user_name
+      passwordError = errors.password
+      passwordConfirmationError = errors.password_confirmation
+      @$el.find("#user_name_error").text(userNameError)
+      @$el.find("#password_error").text(passwordError)
+      @$el.find("#password_confirmation_error").text(passwordConfirmationError)
+
   signup: =>
     this.toggleEnabled(@signupButton, false)
     @model.set(user_name: $("#input_user_name").val())
@@ -30,4 +40,5 @@ class App.Views.Signup extends App.View
       this.autoLogin(@model.get("user_name"), @model.get("password"))
     .error (error) =>
       @model.set(errors: JSON.parse(error.responseText).errors)
-      this.render()
+      this.toggleEnabled(@signupButton, true)
+      this.setErrors()
