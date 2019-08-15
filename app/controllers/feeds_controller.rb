@@ -13,7 +13,7 @@ class FeedsController < ApplicationController
   end
 
   def create
-    res = FeedFactory.create(current_user, params)
+    res = FeedFactory.create(current_user, params[:feed][:url])
     render json: res[:json], status: res[:status]
   end
 

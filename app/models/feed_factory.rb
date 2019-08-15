@@ -2,8 +2,8 @@ require 'rss'
 require 'open-uri'
 
 class FeedFactory
-  def self.create(current_user, params)
-    feed = Feed.find_by(url: params[:feed][:url]) || Feed.new(feed_params(params))
+  def self.create(current_user, url)
+    feed = Feed.find_by(url: url) || Feed.new(feed_params(url))
     if feed.users.any? { |a_user| a_user.id == current_user.id }
       return { json: { errors: { url: "you are already subscribed to this feed" } } , status: :unprocessable_entity }
     end
@@ -18,17 +18,20 @@ class FeedFactory
     { json: { errors: { url: ex.message } }, status: ex.status }
   end
 
-  private
-
-  def self.feed_params(params)
-    parsed_params = params.require(:feed).permit(:url)
+  def self.feed_params(url)
+    parsed_params = { url: url }
     return parsed_params unless parsed_params[:url] =~ URI::regexp
     open(parsed_params[:url]) do |rss|
       feed = RSS::Parser.parse(rss)
-      parsed_params[:title] = feed.channel.title
+      parsed_params[:title] = title(feed)
       parsed_params
     end
   rescue
     raise CustomExceptions::BadRss.new("your url rss is not valid")
+  end
+
+  def self.title(feed)
+    return feed.channel.title if feed.class.method_defined?(:channel)
+    feed.title
   end
 end
