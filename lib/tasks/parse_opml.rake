@@ -20,13 +20,15 @@ namespace :opml do
       end
       outlines.each do |feed|
         next unless feed.attributes.include?(:xmlUrl)
-        puts "params: #{feed.attributes[:xmlUrl.to_sym]}"
-        res = FeedFactory.create(user, feed.attributes[:xmlUrl.to_sym])
+        url = feed.attributes[:xmlUrl.to_sym]
+        puts "url feed Processing...: #{url}"
+        res = FeedFactory.create(user, url)
         if res[:status] == :created
-          puts "#{res[:json]}"
+          puts {res[:json]}
         else
-          puts "ERROR: #{res[:json][:errors]}"
+          puts res[:json][:errors][:url]
         end
+        puts "finish processing feed #{url}"
       end
     end
     file.close
