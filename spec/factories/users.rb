@@ -28,4 +28,9 @@ FactoryBot.define do
   factory :folder do
     name { FFaker::Internet.user_name }
   end
+  factory :folder_feed_user_id do
+    folder { nil }
+    feed { nil }
+    user_id { nil }
+  end
 end
