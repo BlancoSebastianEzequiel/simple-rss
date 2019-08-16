@@ -22,6 +22,15 @@ class FoldersController < ApplicationController
     end
   end
 
+  def show
+    folders = Folder.where(id: params[:feed_id])
+    if folders
+      respond_with folders
+    else
+      render json: { errors: folders.errors }, status: :unprocessable_entity
+    end
+  end
+
   private
 
   def folder_params
