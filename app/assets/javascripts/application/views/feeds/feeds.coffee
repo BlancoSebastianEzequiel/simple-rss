@@ -2,6 +2,9 @@ class App.Views.Feeds extends App.View
 
   template: JST['application/templates/feeds_list']
 
+  events:
+    'click #add_to_folder': "addToFolder"
+
   initialize: ->
     @$el.html(@template)
     @collection.on('add', this.addOne, this)
@@ -19,6 +22,16 @@ class App.Views.Feeds extends App.View
   addAll: =>
     this.toggleNoFeedsMessage()
     @collection.forEach(this.addOne, this)
+
+  getSelectedFeeds: ->
+    selectedFeeds = @collection.models.filter (model) -> model.isSelected()
+    selectedFeeds.map (model) -> model.get("id")
+
+  addToFolder: (event) ->
+    event.preventDefault()
+    feedsId = this.getSelectedFeeds()
+    addToFolder = new App.Views.AddToFolder(collection: new App.Collections.Folders, feedsId: feedsId)
+    @$el.find("#add_to_folder_modal").html(addToFolder.render().el)
 
   render: ->
     @collection.fetch({ reset: true })
