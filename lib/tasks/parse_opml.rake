@@ -5,7 +5,6 @@ namespace :opml do
     require 'colorize'
     include OpmlParser
 
-    # rails "opml:parse[hola, juan seba]"
     file_name = args.file
     users_names = args.users.split(" ")
 
