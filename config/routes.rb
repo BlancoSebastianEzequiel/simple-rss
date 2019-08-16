@@ -16,5 +16,6 @@ Rails.application.routes.draw do
   patch "/articles" => 'articles#update'
   patch "/articles-read" => 'articles#read'
   get "folders" => 'folders#show'
+  post "folders" => 'folders#create'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
