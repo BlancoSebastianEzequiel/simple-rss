@@ -8,7 +8,7 @@ class FeedsController < ApplicationController
     if feeds
       respond_with feeds
     else
-      render json: { errors: feed.errors }, status: :unprocessable_entity
+      render json: { errors: feeds.errors }, status: :unprocessable_entity
     end
   end
 
