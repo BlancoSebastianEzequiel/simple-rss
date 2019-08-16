@@ -6,24 +6,28 @@ class FoldersController < ApplicationController
   def create
     feeds = Feed.where(id: params[:folder][:feeds_id])
     folder = Folder.find_by(name: params[:folder][:name]) || Folder.new(folder_params)
+    unless folder.save
+      return render json: { errors: folder.errors }, status: :unprocessable_entity
+    end
     folder_feed_user_ids = []
     feeds.each do |feed|
-      if FolderFeedUserId.where(folder: folder, feed: feed, user_id: current_user.id).nil?
-        folder_feed_user_ids << FolderFeedUserId.create(folder: folder, feed: feed, user_id: current_user.id)
+      if FolderFeedUserId.where(folder: folder, feed: feed, user_id: current_user.id).empty?
+        folder_feed_user_id = FolderFeedUserId.new(folder: folder, feed: feed, user_id: current_user.id)
+        unless folder_feed_user_id.save
+          folder.delete
+          return render json: { errors: folder_feed_user_id.errors }, status: :unprocessable_entity
+        end
+        folder_feed_user_ids << folder_feed_user_id
       end
     end
-    if folder.save
-      feeds_id = feeds.map {|feed| feed.id}
-      render json: { folder: folder, feeds_id: feeds_id }, status: :created
-    else
-      folder_feed_user_ids_id = folder_feed_user_ids.map {|folder_feed_user_id| folder_feed_user_id.id}
-      FolderFeedUserId.where(id: folder_feed_user_ids_id).delete_all
-      render json: { errors: folder.errors }, status: :unprocessable_entity
-    end
+    feeds_id = feeds.map {|feed| feed.id}
+    render json: { folder: folder, feeds_id: feeds_id }, status: :created
   end
 
   def show
-    folders = Folder.where(id: params[:feed_id])
+    feed = Feed.find_by(id: params[:feed_id])
+    folder_feed_user_ids = FolderFeedUserId.where(feed: feed, user_id: current_user.id)
+    folders = folder_feed_user_ids.map {|folder_feed_user_id| folder_feed_user_id.folder}
     if folders
       respond_with folders
     else

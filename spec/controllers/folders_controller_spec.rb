@@ -59,5 +59,26 @@ RSpec.describe FoldersController, type: :controller do
 
       it { should respond_with :ok }
     end
+
+    context "when two user get folders after one crating them and the other not" do
+      before(:each) do
+        @name = FactoryBot.attributes_for(:folder)[:name]
+        post :create, params: { folder: { name: @name, feeds_id: [ @feed.id ] } }, format: :json
+        get :show, params: { feed_id: @feed.id }, format: :json
+      end
+      it "returns an empty list of folders fo one user and a list not empty for the other" do
+        feed_response = JSON.parse(response.body)
+        expect(feed_response.length).to eql 1
+
+        @another_user = FactoryBot.create :user
+        api_authorization_header(@another_user.auth_token)
+        get :show, params: { feed_id: @feed.id }, format: :json
+
+        feed_response = JSON.parse(response.body)
+        expect(feed_response.length).to eql 0
+      end
+
+      it { should respond_with :ok }
+    end
   end
 end
