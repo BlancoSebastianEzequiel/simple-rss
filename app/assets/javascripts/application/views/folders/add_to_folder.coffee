@@ -5,6 +5,7 @@ class App.Views.AddToFolder extends App.View
   events:
     'click #add_to_folder_submit': 'saveFolder'
     'change #user_folders_list': "getFolderName"
+    'click #new_folder': "newFolder"
 
   initialize: (options) ->
     @folderName = "new_folder"
@@ -31,6 +32,10 @@ class App.Views.AddToFolder extends App.View
     .fail(() =>
       this.toggleEnabled(@addToFolderButton, true)
     )
+
+  newFolder: ->
+    newFolderForm = new App.Views.NewFolderForm(collection: @collection, feedsId: @feedsId)
+    @$el.find("#modal_body").html(newFolderForm.render().el)
 
   render: ->
     @$el.html(@template)

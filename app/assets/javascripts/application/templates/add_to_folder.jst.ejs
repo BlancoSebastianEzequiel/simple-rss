@@ -1,12 +1,14 @@
 <div id="add_to_folder_form_modal" class="modal">
-    <div class="modal-content">
-        <select name="folders" size="1" id="user_folders_list">
-            <option value="all">choose a folder</option>
-            <option value="new_folder">new Folder</option>
-        </select>
-    </div>
-    <div class="modal-footer">
-        <button id="add_to_folder_submit" class="modal-close waves-effect waves-green btn-flat">Confirm</button>
-        <button id="cancel" class="modal-close waves-effect waves-green btn-flat">Cancel</button>
+    <div id="modal_body">
+        <div class="modal-content">
+            <select name="folders" size="1" id="user_folders_list">
+                <option value="all" disabled selected>choose a folder</option>
+            </select>
+        </div>
+        <div class="modal-footer">
+            <button class="waves-effect waves-light btn" id="new_folder"> new folder</button>
+            <button id="add_to_folder_submit" class="modal-close waves-effect waves-green btn-flat">Confirm</button>
+            <button id="cancel" class="modal-close waves-effect waves-green btn-flat">Cancel</button>
+        </div>
     </div>
 </div>
