@@ -7,7 +7,7 @@ Rails.application.routes.draw do
   resources :sessions, :only => [:create, :destroy]
   resources :feeds, :only => [:show, :create, :destroy]
   resources :articles, :only => [:show, :update, :read]
-  resources :folders, :only => [:create]
+  resources :folders, :only => [:show, :create]
   post "/signup" => 'users#create'
   post "/sessions" => 'sessions#create'
   delete "/sessions" => 'sessions#destroy'
@@ -15,5 +15,6 @@ Rails.application.routes.draw do
   get "/articles" => 'articles#show'
   patch "/articles" => 'articles#update'
   patch "/articles-read" => 'articles#read'
+  get "folders" => 'folders#show'
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
 end
