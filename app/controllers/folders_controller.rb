@@ -1,16 +1,20 @@
 class FoldersController < ApplicationController
   respond_to :json
-  wrap_parameters :feed, include: %i[url]
+  wrap_parameters :folder, include: %i[name feeds_id]
   before_action :authenticate_with_token!, :only => [:create]
 
   def create
     feeds = Feed.where(id: params[:folder][:feeds_id])
+    if feeds.empty?
+      return render json: { errors: "no feeds id were given" }, status: :unprocessable_entity
+    end
     folder = Folder.find_by(name: params[:folder][:name]) || Folder.new(folder_params)
     unless folder.save
       return render json: { errors: folder.errors }, status: :unprocessable_entity
     end
     folder_feed_user_ids = []
     feeds.each do |feed|
+      next if folder.feeds.include? feed
       if FolderFeedUserId.where(folder: folder, feed: feed, user_id: current_user.id).empty?
         folder_feed_user_id = FolderFeedUserId.new(folder: folder, feed: feed, user_id: current_user.id)
         unless folder_feed_user_id.save
