@@ -21,7 +21,7 @@ RSpec.describe FoldersController, type: :controller do
       end
     end
 
-    context "when it is not created" do
+    context "when name is missing" do
       before(:each) do
         post :create, params: { folder: { feeds_id: [ @feed.id ] } }, format: :json
       end
