@@ -26,7 +26,11 @@ class FoldersController < ApplicationController
 
   def show
     feed = Feed.find_by(id: params[:feed_id])
-    folder_feed_user_ids = FolderFeedUserId.where(feed: feed, user_id: current_user.id)
+    folder_feed_user_ids = if feed
+       FolderFeedUserId.where(feed: feed, user_id: current_user.id)
+    else
+      FolderFeedUserId.where(user_id: current_user.id)
+    end
     folders = folder_feed_user_ids.map {|folder_feed_user_id| folder_feed_user_id.folder}
     if folders
       respond_with folders
