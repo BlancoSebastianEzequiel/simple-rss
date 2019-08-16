@@ -15,9 +15,20 @@ RSpec.describe FoldersController, type: :controller do
       end
 
       it "renders the json representation for the folder record just created" do
-        feed_response = json_response
-        expect(feed_response[:folder][:name]).to eql @name
-        expect(feed_response[:feeds_id][0]).to eql @feed.id
+        folder_response = json_response
+        expect(folder_response[:folder][:name]).to eql @name
+        expect(folder_response[:feeds_id][0]).to eql @feed.id
+      end
+    end
+
+    context "when it is not created" do
+      before(:each) do
+        post :create, params: { folder: { feeds_id: [ @feed.id ] } }, format: :json
+      end
+
+      it "renders an errors json" do
+        folder_response = json_response
+        expect(folder_response).to have_key(:errors)
       end
     end
   end
