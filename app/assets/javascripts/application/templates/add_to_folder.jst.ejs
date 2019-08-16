@@ -4,10 +4,11 @@
             <select name="folders" size="1" id="user_folders_list">
                 <option value="all" disabled selected>choose a folder</option>
             </select>
+            <span id="name_error" class="helper-text-custom" data-error="wrong" data-success="right"><%= nameError %></span>
         </div>
         <div class="modal-footer">
             <button class="waves-effect waves-light btn" id="new_folder"> new folder</button>
-            <button id="add_to_folder_submit" class="modal-close waves-effect waves-green btn-flat">Confirm</button>
+            <button class="waves-effect waves-light btn" id="add_to_folder_submit"> Confirm</button>
             <button id="cancel" class="modal-close waves-effect waves-green btn-flat">Cancel</button>
         </div>
     </div>
