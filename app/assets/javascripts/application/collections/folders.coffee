@@ -15,6 +15,5 @@ class App.Collections.Folders extends App.Collection
         new PNotify(text: "you added to feeds to the folder!", type: 'success').get()
         this.add(folder)
       error: (model, error) =>
-        new PNotify(text: JSON.stringify(JSON.parse(error.responseText).errors), type: 'error').get()
         @errors = JSON.parse(error.responseText).errors
     })
