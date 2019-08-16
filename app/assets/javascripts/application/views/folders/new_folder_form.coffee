@@ -31,6 +31,6 @@ class App.Views.NewFolderForm extends App.View
     )
     .then(() =>
       this.toggleEnabled(@newFolderButton, true)
-      this.trigger("new:folder:submit")
+      this.trigger("new:folder:close")
     )
 
