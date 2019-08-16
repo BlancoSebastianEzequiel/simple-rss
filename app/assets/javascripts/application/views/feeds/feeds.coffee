@@ -16,8 +16,8 @@ class App.Views.Feeds extends App.View
   addOne: (feedItem) ->
     this.toggleNoFeedsMessage()
     feedView = new App.Views.Feed(model: feedItem)
-    this.listenTo(feedItem, "feed:selected:true", this.enableAddToFolderButton())
-    this.listenTo(feedItem, "feed:selected:false", this.disableAddToFolderButton())
+    this.listenTo(feedView, "feed:selected:true", this.enableAddToFolderButton())
+    this.listenTo(feedView, "feed:selected:false", this.disableAddToFolderButton())
     @$el.find("#feeds_list").append(feedView.render().el)
 
   enableAddToFolderButton: ->
