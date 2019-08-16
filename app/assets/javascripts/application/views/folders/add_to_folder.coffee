@@ -35,7 +35,11 @@ class App.Views.AddToFolder extends App.View
 
   newFolder: ->
     newFolderForm = new App.Views.NewFolderForm(collection: @collection, feedsId: @feedsId)
+    this.listenTo(newFolderForm, "new:folder:submit", this.closeModal)
     @$el.find("#modal_body").html(newFolderForm.render().el)
+
+  closeModal: ->
+    @$el.find("#add_to_folder_form_modal").modal("close")
 
   render: ->
     @$el.html(@template)
