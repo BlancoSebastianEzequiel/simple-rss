@@ -1,15 +1,23 @@
 <li class="collection-item" id="feed">
-    <label>
-        <input id="checkbox" type="checkbox"/>
-        <span></span>
-    </label>
-    <i class="material-icons">rss_feed</i>
-    <a id="get_articles" href="<%=url%>"><%=title%></a>
-    <div class="input-field col s12 m6" id="folders-select"></div>
-    <div class="col s2 m6">
-        <button class="waves-effect waves-light btn" id="unsubscribe" data-id="<%= id %>" > unsubscribe</button>
-        <button class="waves-effect waves-light btn" id="get_articles" data-id="<%= id %>"> see articles</button>
-        <span class=nobr id="refresh_articles_button" data-id="<%= id %>"> </span>
+    <div class="row">
+        <form class="left col 12">
+            <label>
+                <input id="checkbox" type="checkbox"/>
+                <span></span>
+            </label>
+            <i class="material-icons">rss_feed</i>
+            <a id="get_articles" href="<%=url%>"><%=title%></a>
+        </form>
+
+        <form class="col s12 m2">
+            <div class="input-field" id="folders-select"></div>
+        </form>
+
+        <form class="right col 12">
+            <button class="waves-effect waves-light btn" id="unsubscribe" data-id="<%= id %>" > unsubscribe</button>
+            <button class="waves-effect waves-light btn" id="get_articles" data-id="<%= id %>"> see articles</button>
+            <span class=nobr id="refresh_articles_button" data-id="<%= id %>"> </span>
+        </form>
     </div>
 </li>
 
