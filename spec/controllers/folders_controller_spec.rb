@@ -31,6 +31,18 @@ RSpec.describe FoldersController, type: :controller do
         expect(folder_response).to have_key(:errors)
       end
     end
+
+    context "when no feeds id are given" do
+      before(:each) do
+        @name = FactoryBot.attributes_for(:folder)[:name]
+        post :create, params: { folder: { name: @name, feeds_id: [ ] } }, format: :json
+      end
+
+      it "renders an errors json" do
+        folder_response = json_response
+        expect(folder_response).to have_key(:errors)
+      end
+    end
   end
 
   describe "GET #show" do
