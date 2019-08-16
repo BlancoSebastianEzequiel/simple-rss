@@ -27,12 +27,10 @@ class App.Views.AddToFolder extends App.View
   saveFolder: (event) ->
     event.preventDefault()
     this.toggleEnabled(@addToFolderButton, false)
-    alert("feeds_id: " + JSON.stringify(@feedsId))
     @collection.save(@folderName, @feedsId)
     .fail(() =>
       this.toggleEnabled(@addToFolderButton, true)
     )
-    .then(() => this.render())
 
   render: ->
     @$el.html(@template)
