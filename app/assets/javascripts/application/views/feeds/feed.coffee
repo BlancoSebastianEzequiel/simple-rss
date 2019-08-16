@@ -55,4 +55,8 @@ class App.Views.Feed extends App.View
     Backbone.history.navigate("articles", { trigger: true })
 
   selectFeed: ->
-    @model.set(select: true)
+    @model.set(select: !@model.get("select"))
+    if @model.get("select")
+      this.trigger("feed:selected:true")
+    else
+      this.trigger("feed:selected:false")

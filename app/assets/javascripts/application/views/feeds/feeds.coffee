@@ -6,7 +6,6 @@ class App.Views.Feeds extends App.View
     'click #add_to_folder': "addToFolder"
 
   initialize: ->
-    @$el.html(@template)
     @collection.on('add', this.addOne, this)
     @collection.on('reset', this.addAll, this)
     this.listenTo(App.Events, "feed:empty:message", this.toggleNoFeedsMessage)
@@ -17,7 +16,17 @@ class App.Views.Feeds extends App.View
   addOne: (feedItem) ->
     this.toggleNoFeedsMessage()
     feedView = new App.Views.Feed(model: feedItem)
+    this.listenTo(feedItem, "feed:selected:true", this.enableAddToFolderButton())
+    this.listenTo(feedItem, "feed:selected:false", this.disableAddToFolderButton())
     @$el.find("#feeds_list").append(feedView.render().el)
+
+  enableAddToFolderButton: ->
+    this.toggleEnabled(@addToFolderButton, true)
+
+  disableAddToFolderButton: ->
+    notSelected = @collection.models.filter (model) -> !model.isSelected()
+    if notSelected.length == 0
+      this.toggleEnabled(@addToFolderButton, false)
 
   addAll: =>
     this.toggleNoFeedsMessage()
@@ -34,5 +43,8 @@ class App.Views.Feeds extends App.View
     @$el.find("#add_to_folder_modal").html(addToFolder.render().el)
 
   render: ->
+    @$el.html(@template)
+    @addToFolderButton = @$el.find("#add_to_folder")
+    this.toggleEnabled(@addToFolderButton, false)
     @collection.fetch({ reset: true })
     this
