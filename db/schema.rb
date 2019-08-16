@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_08_15_181328) do
+ActiveRecord::Schema.define(version: 2019_08_15_222550) do
 
   create_table "active_admin_comments", force: :cascade do |t|
     t.string "namespace"
@@ -72,6 +72,16 @@ ActiveRecord::Schema.define(version: 2019_08_15_181328) do
     t.integer "feed_id", null: false
     t.index ["feed_id", "user_id"], name: "index_feeds_users_on_feed_id_and_user_id"
     t.index ["user_id", "feed_id"], name: "index_feeds_users_on_user_id_and_feed_id"
+  end
+
+  create_table "folder_feed_user_ids", force: :cascade do |t|
+    t.integer "folder_id", null: false
+    t.integer "feed_id", null: false
+    t.integer "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["feed_id"], name: "index_folder_feed_user_ids_on_feed_id"
+    t.index ["folder_id"], name: "index_folder_feed_user_ids_on_folder_id"
   end
 
   create_table "folders", force: :cascade do |t|
