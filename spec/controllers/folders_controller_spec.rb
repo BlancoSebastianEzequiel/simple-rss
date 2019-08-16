@@ -80,5 +80,18 @@ RSpec.describe FoldersController, type: :controller do
 
       it { should respond_with :ok }
     end
+
+    context "when we get the folders without specifying feeds id" do
+      before(:each) do
+        @name = FactoryBot.attributes_for(:folder)[:name]
+        post :create, params: { folder: { name: @name, feeds_id: [ @feed.id ] } }, format: :json
+        get :show, format: :json
+      end
+
+      it "returns all users folders" do
+        feed_response = json_response
+        expect(feed_response.length).to eql 1
+      end
+    end
   end
 end
