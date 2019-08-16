@@ -16,7 +16,8 @@ class FoldersController < ApplicationController
       feeds_id = feeds.map {|feed| feed.id}
       render json: { folder: folder, feeds_id: feeds_id }, status: :created
     else
-      FolderFeedUserId.where(id: folder_feed_user_ids.id).delete_all
+      folder_feed_user_ids_id = folder_feed_user_ids.map {|folder_feed_user_id| folder_feed_user_id.id}
+      FolderFeedUserId.where(id: folder_feed_user_ids_id).delete_all
       render json: { errors: folder.errors }, status: :unprocessable_entity
     end
   end
