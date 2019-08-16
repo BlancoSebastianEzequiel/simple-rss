@@ -32,4 +32,19 @@ RSpec.describe FoldersController, type: :controller do
       end
     end
   end
+
+  describe "GET #show" do
+    before(:each) do
+      @name = FactoryBot.attributes_for(:folder)[:name]
+      post :create, params: { folder: { name: @name, feeds_id: [ @feed.id ] } }, format: :json
+      get :show, params: { feed_id: @feed.id }, format: :json
+    end
+
+    it "returns the list of users feeds" do
+      feed_response = json_response
+      expect(feed_response.length).to eql 1
+    end
+
+    it { should respond_with :ok }
+  end
 end
