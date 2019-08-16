@@ -1,11 +1,10 @@
 namespace :opml do
-  desc "This task does nothing"
+  desc "This task parse an opml file and subscribe user to each of them"
   task :parse, [:file, :users] => :environment do |task, args|
     require 'opml-parser'
     require 'colorize'
     include OpmlParser
 
-    # rails "opml:parse[hola, juan seba]"
     file_name = args.file
     users_names = args.users.split(" ")
 

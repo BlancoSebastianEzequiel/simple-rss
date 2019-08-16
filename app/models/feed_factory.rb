@@ -21,6 +21,8 @@ class FeedFactory
     { json: { errors: { url: ex.message } }, status: ex.status }
   end
 
+  private
+
   def self.feed_params(url)
     parsed_params = { url: url }
     return parsed_params unless parsed_params[:url] =~ URI::regexp
