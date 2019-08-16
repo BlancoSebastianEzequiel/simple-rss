@@ -3,3 +3,6 @@ class App.Models.Feed extends App.Model
   defaults:
     url: ""
     title: ""
+
+  isSelected: ->
+    this.get("select")
