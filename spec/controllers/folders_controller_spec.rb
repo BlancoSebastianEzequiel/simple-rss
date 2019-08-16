@@ -39,12 +39,13 @@ RSpec.describe FoldersController, type: :controller do
       post :create, params: { folder: { name: @name, feeds_id: [ @feed.id ] } }, format: :json
       get :show, params: { feed_id: @feed.id }, format: :json
     end
+    context "when we get the folder after storing feeds on them" do
+      it "returns the list of folders" do
+        feed_response = json_response
+        expect(feed_response.length).to eql 1
+      end
 
-    it "returns the list of users feeds" do
-      feed_response = json_response
-      expect(feed_response.length).to eql 1
+      it { should respond_with :ok }
     end
-
-    it { should respond_with :ok }
   end
 end
