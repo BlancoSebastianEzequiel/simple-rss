@@ -2,6 +2,9 @@ class App.Views.Folders extends App.View
 
   template: JST['application/templates/folders/folders_list']
 
+  events:
+    'change #folders_list': "setFolderName"
+
   initialize: (options) ->
     @feedId = options.feedId
     @collection = options.collection
@@ -16,10 +19,20 @@ class App.Views.Folders extends App.View
     @collection.forEach(this.addOne, this)
     @$el.find("#folders_list").formSelect()
 
+  setFolderName: (event) ->
+    event.preventDefault()
+    @folderName = @$el.find("#folders_list").val()
+
+  getFolderName: ->
+    @folderName
+
   render: ->
     @$el.html(@template)
-    @collection.fetch({
-      data: { feed_id: @feedId }
-      reset: true
-    })
+    if @feedId
+      @collection.fetch({
+        data: { feed_id: @feedId }
+        reset: true
+      })
+    else
+      @collection.fetch({ reset: true })
     this

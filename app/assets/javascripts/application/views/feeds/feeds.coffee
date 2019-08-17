@@ -39,7 +39,7 @@ class App.Views.Feeds extends App.View
   addToFolder: (event) ->
     event.preventDefault()
     feedsId = this.getSelectedFeeds()
-    addToFolder = new App.Views.AddToFolder(collection: new App.Collections.Folders, feedsId: feedsId)
+    addToFolder = new App.Views.AddToFolder(model: new App.Models.Folder, feedsId: feedsId)
     this.listenTo(addToFolder, "add:feed:to:folder:close", this.render)
     @$el.find("#add_to_folder_modal").html(addToFolder.render().el)
 
