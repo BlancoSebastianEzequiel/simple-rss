@@ -1,6 +1,6 @@
 class App.Views.Folders extends App.View
 
-  template: JST['application/templates/folders_list']
+  template: JST['application/templates/folders/folders_list']
 
   initialize: (options) ->
     @feedId = options.feedId

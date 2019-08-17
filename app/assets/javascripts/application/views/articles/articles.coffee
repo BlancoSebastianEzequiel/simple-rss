@@ -1,6 +1,6 @@
 class App.Views.Articles extends App.View
 
-  template: JST['application/templates/article_list']
+  template: JST['application/templates/articles/article_list']
 
   initialize: ->
     @collection.on('add', this.addOne, this)

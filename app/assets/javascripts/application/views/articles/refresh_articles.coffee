@@ -1,6 +1,6 @@
 class App.Views.RefreshArticles extends App.View
 
-  template: JST['application/templates/refresh_articles_button']
+  template: JST['application/templates/articles/refresh_articles_button']
 
   events:
     'click .refreshArticles': "refreshArticles"

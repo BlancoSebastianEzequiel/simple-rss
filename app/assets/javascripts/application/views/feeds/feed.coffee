@@ -1,6 +1,6 @@
 class App.Views.Feed extends App.View
 
-  template: JST['application/templates/feed']
+  template: JST['application/templates/feeds/feed']
 
   events:
     'click #unsubscribe': 'confirmUnsubscribeFeed'

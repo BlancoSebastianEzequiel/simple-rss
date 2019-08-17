@@ -1,6 +1,6 @@
 class App.Views.NewFeedForm extends App.View
 
-  template: JST['application/templates/feed_form']
+  template: JST['application/templates/feeds/feed_form']
 
   events:
     'click #new_feed_submit': 'saveFeed'

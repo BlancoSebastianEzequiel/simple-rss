@@ -1,6 +1,6 @@
 class App.Views.Feeds extends App.View
 
-  template: JST['application/templates/feeds_list']
+  template: JST['application/templates/feeds/feeds_list']
 
   events:
     'click #add_to_folder': "addToFolder"

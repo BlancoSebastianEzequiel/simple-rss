@@ -1,6 +1,6 @@
 class App.Views.NewFolderForm extends App.View
 
-  template: JST['application/templates/new_folder_form']
+  template: JST['application/templates/folders/new_folder_form']
 
   events:
     'click #new_folder_name_submit': 'saveFolderName'

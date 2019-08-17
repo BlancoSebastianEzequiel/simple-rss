@@ -1,6 +1,6 @@
 class App.Views.AddToFolder extends App.View
 
-  template: JST['application/templates/add_to_folder']
+  template: JST['application/templates/folders/add_to_folder']
 
   events:
     'click #add_to_folder_submit': 'saveFolder'

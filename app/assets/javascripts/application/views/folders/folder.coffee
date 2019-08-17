@@ -1,6 +1,6 @@
 class App.Views.Folder extends App.View
 
-  template: JST['application/templates/folder']
+  template: JST['application/templates/folders/folder']
 
   tagName: "option",
   className: "folder_option"
