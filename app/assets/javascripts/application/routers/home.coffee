@@ -13,8 +13,14 @@ class App.Routers.Home extends App.Router
       main.append(view)
 
   articles: ->
+    feedId = localStorage.getItem("current_feed_id")
+    feedTitle = localStorage.getItem("current_feed_title")
     main = new App.Views.Main
-    view = new App.Views.Articles(collection: new App.Collections.Articles)
+    view = new App.Views.Articles(
+      collection: new App.Collections.Articles,
+      feedId: feedId,
+      feedTitle: feedTitle
+    )
     $('body').html(main.el)
     main.render()
     main.append(view)
