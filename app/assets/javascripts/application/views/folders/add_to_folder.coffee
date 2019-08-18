@@ -26,7 +26,7 @@ class App.Views.AddToFolder extends App.View
         new PNotify(text: "you added to feeds to the folder!", type: 'success').get()
         this.closeModal()
       error: (model, error) =>
-        @model.errors = JSON.parse(error.responseText).errors
+        @model.set(errors: JSON.parse(error.responseText).errors)
         this.setErrors()
         this.toggleEnabled(@addToFolderButton, true)
     })
