@@ -134,9 +134,12 @@ RSpec.describe FeedsController, type: :controller do
         @feed_2 = FactoryBot.create(:feed, url: "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml")
         @feed_1.users << @user
         @feed_2.users << @user
-        @folder = FactoryBot.create(:folder)
-        @folder_feed_1_user_id = FactoryBot.create(:folder_feed_user_id, feed: @feed_1, folder: @folder, user_id: @user.id)
-        @folder_feed_2_user_id = FactoryBot.create(:folder_feed_user_id, feed: @feed_2, folder: @folder, user_id: @user.id)
+        @folder_1 = FactoryBot.create(:folder)
+        @folder_2 = FactoryBot.create(:folder)
+        @folder_feed_1_user_id = FactoryBot.create(:folder_feed_user_id, feed: @feed_1, folder: @folder_1, user_id: @user.id)
+        @folder_feed_1_user_id = FactoryBot.create(:folder_feed_user_id, feed: @feed_1, folder: @folder_2, user_id: @user.id)
+        @folder_feed_2_user_id = FactoryBot.create(:folder_feed_user_id, feed: @feed_2, folder: @folder_1, user_id: @user.id)
+        @folder_feed_2_user_id = FactoryBot.create(:folder_feed_user_id, feed: @feed_2, folder: @folder_2, user_id: @user.id)
       end
 
       it "remove the feed and its articles, but not the folder" do
