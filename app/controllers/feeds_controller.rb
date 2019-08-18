@@ -32,12 +32,10 @@ class FeedsController < ApplicationController
     end
 
     feed.folders.each do |folder|
-      folder_feed_user_ids = FolderFeedUserId.where(folder: folder)
-      folder_feed_user_ids = folder_feed_user_ids.filter do |folder_feed_user_id|
-        folder_feed_user_id.user_id != current_user.id
-      end
-      if folder_feed_user_ids.empty?
-        feed.folders.delete(folder)
+      folder_feed_user_ids = FolderFeedUserId.where(folder: folder, user_id: current_user.id)
+      folder_feed_user_ids.delete_all
+      if FolderFeedUserId.where(folder: folder).empty?
+        folder.delete
       end
     end
 
