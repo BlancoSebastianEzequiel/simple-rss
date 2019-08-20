@@ -22,7 +22,7 @@ class App.Views.Signup extends App.View
   setErrors: ->
     errors = @model.get("errors")
     if errors
-      userNameError = errors.user_name
+      userNameError = errors.user_name || ""
       passwordError = errors.password || ""
       passwordConfirmationError = errors.password_confirmation || ""
       @$el.find("#user_name_error").text(userNameError)
