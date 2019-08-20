@@ -12,18 +12,15 @@ class FoldersController < ApplicationController
     unless folder.save
       return render json: { errors: folder.errors }, status: :unprocessable_entity
     end
+    query = []
     feeds.each do |feed|
-      next if folder.feeds.include? feed
-      if FolderFeedUser.where(folder: folder, feed: feed, user_id: current_user.id).empty?
-        folder_feed_user_id = FolderFeedUser.new(folder: folder, feed: feed, user_id: current_user.id)
-        unless folder_feed_user_id.save
-          folder.delete
-          return render json: { errors: folder_feed_user_id.errors }, status: :unprocessable_entity
-        end
-      end
+      query << { folder: folder, feed: feed, user_id: current_user.id }
     end
+    FolderFeedUser.create(query)
     feed_ids = feeds.map {|feed| feed.id}
     render json: { folder: folder, feed_ids: feed_ids }, status: :created
+  rescue
+    return render json: { errors: { name: "Those feeds are already in that folder" } }, status: :unprocessable_entity
   end
 
   def show
