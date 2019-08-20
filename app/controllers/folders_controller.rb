@@ -12,16 +12,14 @@ class FoldersController < ApplicationController
     unless folder.save
       return render json: { errors: folder.errors }, status: :unprocessable_entity
     end
-    folder_feed_user_ids = []
     feeds.each do |feed|
       next if folder.feeds.include? feed
-      if FolderFeedUserId.where(folder: folder, feed: feed, user_id: current_user.id).empty?
-        folder_feed_user_id = FolderFeedUserId.new(folder: folder, feed: feed, user_id: current_user.id)
+      if FolderFeedUser.where(folder: folder, feed: feed, user_id: current_user.id).empty?
+        folder_feed_user_id = FolderFeedUser.new(folder: folder, feed: feed, user_id: current_user.id)
         unless folder_feed_user_id.save
           folder.delete
           return render json: { errors: folder_feed_user_id.errors }, status: :unprocessable_entity
         end
-        folder_feed_user_ids << folder_feed_user_id
       end
     end
     feed_ids = feeds.map {|feed| feed.id}
@@ -31,9 +29,9 @@ class FoldersController < ApplicationController
   def show
     feed = Feed.find_by(id: params[:feed_id])
     folder_feed_user_ids = if feed
-       FolderFeedUserId.where(feed: feed, user_id: current_user.id)
+       FolderFeedUser.where(feed: feed, user_id: current_user.id)
     else
-      FolderFeedUserId.where(user_id: current_user.id)
+      FolderFeedUser.where(user_id: current_user.id)
     end
     folders = folder_feed_user_ids.map {|folder_feed_user_id| folder_feed_user_id.folder}
     if folders

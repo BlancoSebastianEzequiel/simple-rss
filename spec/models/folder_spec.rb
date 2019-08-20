@@ -4,7 +4,7 @@ RSpec.describe Folder, type: :model do
   before { @folder = FactoryBot.build(:folder) }
   subject { @folder }
   it { should respond_to(:name) }
-  it { should have_many(:feeds).through(:folder_feed_user_id) }
+  it { should have_many(:feeds).through(:folder_feed_user) }
 
   describe "when name is not present" do
     before { @folder.name = " " }
