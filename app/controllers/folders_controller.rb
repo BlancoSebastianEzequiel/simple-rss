@@ -1,10 +1,10 @@
 class FoldersController < ApplicationController
   respond_to :json
-  wrap_parameters :folder, include: %i[name feeds_id]
+  wrap_parameters :folder, include: %i[name feed_ids]
   before_action :authenticate_with_token!, :only => [:create]
 
   def create
-    feeds = Feed.where(id: params[:folder][:feeds_id])
+    feeds = Feed.where(id: params[:folder][:feed_ids])
     if feeds.empty?
       return render json: { errors: "no feeds id were given" }, status: :unprocessable_entity
     end
@@ -24,8 +24,8 @@ class FoldersController < ApplicationController
         folder_feed_user_ids << folder_feed_user_id
       end
     end
-    feeds_id = feeds.map {|feed| feed.id}
-    render json: { folder: folder, feeds_id: feeds_id }, status: :created
+    feed_ids = feeds.map {|feed| feed.id}
+    render json: { folder: folder, feed_ids: feed_ids }, status: :created
   end
 
   def show
@@ -46,6 +46,6 @@ class FoldersController < ApplicationController
   private
 
   def folder_params
-    params.require(:folder).permit(:name, :feeds_id)
+    params.require(:folder).permit(:name, :feed_ids)
   end
 end

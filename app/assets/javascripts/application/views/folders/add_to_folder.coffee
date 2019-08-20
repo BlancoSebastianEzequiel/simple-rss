@@ -9,7 +9,7 @@ class App.Views.AddToFolder extends App.View
 
   initialize: (options) ->
     @folderName = ""
-    @feedsId = options.feedsId
+    @feedIds = options.feedIds
 
   setErrors: ->
     errors = @model.get("errors")
@@ -21,7 +21,7 @@ class App.Views.AddToFolder extends App.View
     event.preventDefault()
     this.toggleEnabled(@addToFolderButton, false)
     folderName = @currentFolderNameGetter.getFolderName()
-    @model.save({ name: folderName, feeds_id: @feedsId }, {
+    @model.save({ name: folderName, feed_ids: @feedIds }, {
       success: (model, response, options) =>
         new PNotify(text: "you added to feeds to the folder!", type: 'success').get()
         this.closeModal()
@@ -33,7 +33,7 @@ class App.Views.AddToFolder extends App.View
 
 
   goToNewFolderForm: ->
-    @currentFolderNameGetter = new App.Views.NewFolderForm(model: @model, feedsId: @feedsId)
+    @currentFolderNameGetter = new App.Views.NewFolderForm(model: @model, feedIds: @feedIds)
     @$el.find("#user_folders_list").html(@currentFolderNameGetter.render().el)
 
   goToUserFoldersList: ->

@@ -11,19 +11,19 @@ RSpec.describe FoldersController, type: :controller do
     context "when is successfully created" do
       before(:each) do
         @name = FactoryBot.attributes_for(:folder)[:name]
-        post :create, params: { folder: { name: @name, feeds_id: [ @feed.id ] } }, format: :json
+        post :create, params: { folder: { name: @name, feed_ids: [ @feed.id ] } }, format: :json
       end
 
       it "renders the json representation for the folder record just created" do
         folder_response = json_response
         expect(folder_response[:folder][:name]).to eql @name
-        expect(folder_response[:feeds_id][0]).to eql @feed.id
+        expect(folder_response[:feed_ids][0]).to eql @feed.id
       end
     end
 
     context "when name is missing" do
       before(:each) do
-        post :create, params: { folder: { feeds_id: [ @feed.id ] } }, format: :json
+        post :create, params: { folder: { feed_ids: [ @feed.id ] } }, format: :json
       end
 
       it "renders an errors json" do
@@ -35,7 +35,7 @@ RSpec.describe FoldersController, type: :controller do
     context "when no feeds id are given" do
       before(:each) do
         @name = FactoryBot.attributes_for(:folder)[:name]
-        post :create, params: { folder: { name: @name, feeds_id: [ ] } }, format: :json
+        post :create, params: { folder: { name: @name, feed_ids: [ ] } }, format: :json
       end
 
       it "renders an errors json" do
@@ -49,7 +49,7 @@ RSpec.describe FoldersController, type: :controller do
     context "when we get the folder after storing feeds on them" do
       before(:each) do
         @name = FactoryBot.attributes_for(:folder)[:name]
-        post :create, params: { folder: { name: @name, feeds_id: [ @feed.id ] } }, format: :json
+        post :create, params: { folder: { name: @name, feed_ids: [ @feed.id ] } }, format: :json
         get :show, params: { feed_id: @feed.id }, format: :json
       end
       it "returns the list of folders" do
@@ -75,7 +75,7 @@ RSpec.describe FoldersController, type: :controller do
     context "when two user get folders after one crating them and the other not" do
       before(:each) do
         @name = FactoryBot.attributes_for(:folder)[:name]
-        post :create, params: { folder: { name: @name, feeds_id: [ @feed.id ] } }, format: :json
+        post :create, params: { folder: { name: @name, feed_ids: [ @feed.id ] } }, format: :json
         get :show, params: { feed_id: @feed.id }, format: :json
       end
       it "returns an empty list of folders fo one user and a list not empty for the other" do
@@ -96,7 +96,7 @@ RSpec.describe FoldersController, type: :controller do
     context "when we get the folders without specifying feeds id" do
       before(:each) do
         @name = FactoryBot.attributes_for(:folder)[:name]
-        post :create, params: { folder: { name: @name, feeds_id: [ @feed.id ] } }, format: :json
+        post :create, params: { folder: { name: @name, feed_ids: [ @feed.id ] } }, format: :json
         get :show, format: :json
       end
 

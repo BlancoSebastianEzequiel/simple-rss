@@ -6,7 +6,7 @@ class App.Views.NewFolderForm extends App.View
     'change #input_name': 'setFolderName'
 
   initialize: (options) ->
-    @feedsId = options.feedsId
+    @feedIds = options.feedIds
 
   render: ->
     errors = @model.get("errors")
