@@ -8,8 +8,7 @@ class App.Views.UnsubscribeConfirmation extends App.View
 
   render: ->
     @$el.html(@template)
-    modal = @$el.find("#unsubscribe_confirmation")
-    @$el.find('.modal').modal()
+    @$el.find('.modal').modal({ onCloseEnd: () => this.cancel() })
     @$el.find('#unsubscribe_confirmation').modal('open')
     @$el.find('.trigger-modal').modal();
     this

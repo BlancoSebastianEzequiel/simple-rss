@@ -1,6 +1,6 @@
 class App.Views.Article extends App.View
 
-  template: JST['application/templates/article']
+  template: JST['application/templates/articles/article']
 
   TICK: "&#10004;"
 

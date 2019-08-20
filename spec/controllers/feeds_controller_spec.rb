@@ -127,5 +127,25 @@ RSpec.describe FeedsController, type: :controller do
       delete :destroy, params: { id: @feed.id }, format: :json
       should respond_with :no_content
     end
+
+    context "when two feeds are in the same folder" do
+      before(:each) do
+        @feed_1 = FactoryBot.create(:feed, url: "https://rss.nytimes.com/services/xml/rss/nyt/Americas.xml")
+        @feed_2 = FactoryBot.create(:feed, url: "https://rss.nytimes.com/services/xml/rss/nyt/HomePage.xml")
+        @feed_1.users << @user
+        @feed_2.users << @user
+        @folder_1 = FactoryBot.create(:folder)
+        @folder_2 = FactoryBot.create(:folder)
+        @folder_feed_1_user = FactoryBot.create(:folder_feed_user, feed: @feed_1, folder: @folder_1, user_id: @user.id)
+        @folder_feed_1_user = FactoryBot.create(:folder_feed_user, feed: @feed_1, folder: @folder_2, user_id: @user.id)
+        @folder_feed_2_user = FactoryBot.create(:folder_feed_user, feed: @feed_2, folder: @folder_1, user_id: @user.id)
+        @folder_feed_2_user = FactoryBot.create(:folder_feed_user, feed: @feed_2, folder: @folder_2, user_id: @user.id)
+      end
+
+      it "remove the feed and its articles, but not the folder" do
+        delete :destroy, params: { id: @feed_1.id }, format: :json
+        should respond_with :no_content
+      end
+    end
   end
 end

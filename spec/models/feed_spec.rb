@@ -7,6 +7,7 @@ RSpec.describe Feed, type: :model do
   it { should respond_to(:title) }
   it { should be_valid }
   it { should have_and_belong_to_many :users }
+  it { should have_many(:folders).through(:folder_feed_user) }
 
   describe "when url is not present" do
     before { @feed.url = " " }
