@@ -85,3 +85,7 @@ gem 'pnotify-rails'
 
 # framework for styling
 gem 'materialize-sass', '~> 1.0.0'
+
+gem 'opml-parser'
+
+gem 'colorize'

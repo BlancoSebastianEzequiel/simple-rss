@@ -2,16 +2,17 @@ class App.Views.Articles extends App.View
 
   template: JST['application/templates/article_list']
 
-  initialize: ->
+  initialize: (options) ->
+    @feedTitle = options.feedTitle
+    @feedId = options.feedId
     @collection.on('add', this.addOne, this)
     @collection.on('reset', this.addAll, this)
 
   render: ->
     this.getArticles()
     .then(() =>
-      @$el.html(@template({ @numberOfArticles }))
-      feedId = localStorage.getItem("current_feed_id")
-      refreshArticlesButton = new App.Views.RefreshArticles({ feed_id: feedId })
+      @$el.html(@template({ @numberOfArticles, @feedTitle }))
+      refreshArticlesButton = new App.Views.RefreshArticles({ feed_id: @feedId })
       this.listenTo(refreshArticlesButton, "articles:refresh", this.render)
       @$el.find("#refresh_articles_button").html(refreshArticlesButton.render().el)
       this.addAll()
@@ -27,7 +28,7 @@ class App.Views.Articles extends App.View
 
   getArticles: ->
     @collection.fetch({
-      data: { feed_id: localStorage.getItem("current_feed_id") }
+      data: { feed_id: @feedId }
       success: (model, response, options) =>
         @numberOfArticles = response[0].number_of_articles
         new PNotify(text: "success fetch", type: 'success').get()

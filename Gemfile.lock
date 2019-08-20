@@ -140,6 +140,7 @@ GEM
       coffee-script-source
       execjs
     coffee-script-source (1.12.2)
+    colorize (0.8.1)
     concurrent-ruby (1.1.5)
     crass (1.0.4)
     devise (4.6.2)
@@ -223,6 +224,8 @@ GEM
     nio4r (2.4.0)
     nokogiri (1.10.3)
       mini_portile2 (~> 2.4.0)
+    opml-parser (1.0.1)
+      nokogiri
     orm_adapter (0.5.0)
     pnotify-rails (3.0.0)
     public_suffix (3.1.1)
@@ -347,6 +350,7 @@ DEPENDENCIES
   byebug
   capybara (>= 2.15)
   coffee-rails (~> 4.2)
+  colorize
   devise
   factory_bot_rails
   ffaker
@@ -355,6 +359,7 @@ DEPENDENCIES
   jquery-rails
   listen (>= 3.0.5, < 3.2)
   materialize-sass (~> 1.0.0)
+  opml-parser
   pnotify-rails
   puma (~> 3.11)
   rails (~> 5.2.3)

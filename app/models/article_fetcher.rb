@@ -24,13 +24,15 @@ class ArticleFetcher
             feed_id: feed_id,
             link: item.link,
             title: item.title,
-            description: description(item.description)
+            description: description(item)
         }
         article[:avatar] = image_url(item)
         articles << article
       end
       articles
     end
+  rescue
+    raise CustomExceptions::BadRssParse.new("could not parse the articles")
   end
 
   def self.image_url(item)
@@ -42,8 +44,8 @@ class ArticleFetcher
     ""
   end
 
-  def self.description(description)
-    return description unless description.include?("src")
-    Nokogiri::HTML(description).text
+  def self.description(item)
+    return item.description unless item.description.include?("src")
+    Nokogiri::HTML(item.description).text
   end
 end

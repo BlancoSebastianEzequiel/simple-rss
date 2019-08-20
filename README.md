@@ -25,4 +25,8 @@
 * Run server
   * Run server `rails s`
   * Open browser on  `localhost:3000`
+  
+* import subscriptions in OPML format  
+   Adds rss feeds from an opml file and then subscribes users to those feeds
+  * run `rails "opml:parse[filepath, user_name_1 user_name_2, user_name_3]"`
  
