@@ -12,7 +12,7 @@ class App.Views.Logout extends App.View
   logout: ->
     @model.set("id", localStorage.getItem("auth_token"))
     localStorage.setItem("auth_token", null)
-    @model.destroy().then(() =>
-      new PNotify(text: "goodbye!", type: 'success').get()
+    @model.destroy()
+    .success ->
       Backbone.history.loadUrl("", { trigger: true })
-    )
+    .then(() -> new PNotify(text: "goodbye!", type: 'success').get())
