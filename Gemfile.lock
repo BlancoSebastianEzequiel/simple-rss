@@ -229,7 +229,8 @@ GEM
     orm_adapter (0.5.0)
     pnotify-rails (3.0.0)
     public_suffix (3.1.1)
-    puma (3.12.1)
+    puma (4.3.1)
+      nio4r (~> 2.0)
     rack (2.0.7)
     rack-test (1.1.0)
       rack (>= 1.0, < 3)
@@ -361,7 +362,7 @@ DEPENDENCIES
   materialize-sass (~> 1.0.0)
   opml-parser
   pnotify-rails
-  puma (~> 3.11)
+  puma (~> 4.3)
   rails (~> 5.2.3)
   rspec-core!
   rspec-expectations!
